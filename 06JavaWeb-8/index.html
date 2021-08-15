@@ -1,0 +1,330 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>版本控制 Git | Insular Oasis</title><meta name="keywords" content="Git"><meta name="author" content="张海达"><meta name="copyright" content="张海达"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="版本控制如果在开发团队中没有使用版本控制，多个开发人员共同负责同一个软件或文档的开发，每个人在各自 的机器上有整个软件文档的备份，并对之实施编程开发，在分别完成各自任务之后，再通过文本比对工 具将各自机器上的不同版本的程序整合到一台机器上。没有进行版本控制或者版本控制本身缺乏正确的 流程管理，在软件开发过程中将会引入很多问题，如软件代码的一致性、软件内容的冗余、软件过程的 事务性、软件开发过程中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="版本控制 Git">
+<meta property="og:url" content="https://no-existence.github.io/06JavaWeb-8/index.html">
+<meta property="og:site_name" content="Insular Oasis">
+<meta property="og:description" content="版本控制如果在开发团队中没有使用版本控制，多个开发人员共同负责同一个软件或文档的开发，每个人在各自 的机器上有整个软件文档的备份，并对之实施编程开发，在分别完成各自任务之后，再通过文本比对工 具将各自机器上的不同版本的程序整合到一台机器上。没有进行版本控制或者版本控制本身缺乏正确的 流程管理，在软件开发过程中将会引入很多问题，如软件代码的一致性、软件内容的冗余、软件过程的 事务性、软件开发过程中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://no-existence.github.io/img/cover/git.png">
+<meta property="article:published_time" content="2021-08-10T13:40:49.000Z">
+<meta property="article:modified_time" content="2021-08-15T13:21:42.961Z">
+<meta property="article:author" content="张海达">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://no-existence.github.io/img/cover/git.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://no-existence.github.io/06JavaWeb-8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '版本控制 Git',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-15 21:21:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/git.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Insular Oasis</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">版本控制 Git</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-10T13:40:49.000Z" title="发表于 2021-08-10 21:40:49">2021-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-15T13:21:42.961Z" title="更新于 2021-08-15 21:21:42">2021-08-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="版本控制 Git"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h1><p>如果在开发团队中没有使用版本控制，多个开发人员共同负责同一个软件或文档的开发，每个人在各自 的机器上有整个软件文档的备份，并对之实施编程开发，在分别完成各自任务之后，再通过文本比对工 具将各自机器上的不同版本的程序整合到一台机器上。没有进行版本控制或者版本控制本身缺乏正确的 流程管理，在软件开发过程中将会引入很多问题，如软件代码的一致性、软件内容的冗余、软件过程的 事务性、软件开发过程中的并发性、软件源代码的安全性，以及软件的整合等问题。 </p>
+<p>版本控制的目的是实现开发团队并行开发、提高开发效率的基础。其目的在于对软件开发进程中文件或 目录的发展过程提供有效的追踪手段，保证在需要时可回到旧的版本，避免文件的丢失、修改的丢失和 相互覆盖，通过对版本库的访问控制避免未经授权的访问和修改，达到有效保护企业软件资产和知识产 权的目的。 </p>
+<p>版本控制的功能在于跟踪记录整个软件的开发过程，包括软件本身和相关文档，以便对不同阶段的软件 及相关文档进行表示并进行差别分析，对软件代码进行可撤消的修改，便于汇总不同开发人员所做的修 改，辅助协调和管理软件开发团队。</p>
+<h2 id="版本控制工具"><a href="#版本控制工具" class="headerlink" title="版本控制工具"></a>版本控制工具</h2><h3 id="Visual-Source-Safe-VSS）"><a href="#Visual-Source-Safe-VSS）" class="headerlink" title="Visual Source Safe(VSS）"></a>Visual Source Safe(VSS）</h3><p>VSS是美国微软公司的产品，目前常用的版本为6.0版。VSS是配置管理的一种很好的入门级的工具。 </p>
+<p>易学易用是VSS的强项，VSS采用标准的windows操作界面，只要对微软的产品熟悉，就能很快上手。 VSS的安装和配置非常简单，对于该产品，不需要外部的培训（可以为公司省去一笔不菲的费用）。只要参考微软完备的随机文档，就可以很快的用到实际的工程当中。 </p>
+<p>VSS的配置管理的功能比较基本，提供文件的版本跟踪功能，对于build和基线的管理，VSS的打标签的 功能可以提供支持。VSS提供share（共 享)、branch(分支）和合并（merge)的功能，对于团队的开发 进行支持。</p>
+<p>VSS不提供对流程的管理功能，如对变更的流程进行控制。 VSS不能提供对异地团队开发的支持。此外VSS只能在windows平台上运行，不能运行在其他操作系统 上。 有软件提供商提供VSS插件，可以同时解决VSS跨平台和远程连接两个问题，例如 SourceAnywhere for VSS, SourceOffSite等。 </p>
+<p>VSS的安全性不高，对于VSS的用户，可以在文件夹上设置不可读，可读，可读/写,可完全控制四级权 限。但由于VSS的文件夹是要完全共享给用户后，用户才能进入，所以用户对VSS的文件夹都可以删 除。这一点也是VSS的一个比较大的缺点。 </p>
+<p>VSS没有采用对许可证进行收费的方式，只要安装了VSS，对用户的数目是没有限制的。因此使用VSS的 费用是较低的。 </p>
+<p>微软不再对VSS提供技术支持。</p>
+<h3 id="Concurrent-Version-System-CVS）"><a href="#Concurrent-Version-System-CVS）" class="headerlink" title="Concurrent Version System(CVS）"></a>Concurrent Version System(CVS）</h3><p>CVS是开发源代码的配置管理工具，其源代码和安装文件都可以免费下载。</p>
+<p>CVS是源于unix的版本控制工具，对于CVS的安装和使用最好对unix的系统有所了解能更容易学习， CVS的服务器管理需要进行各种命令行操作。目前，CVS的客户端有winCVS的图形化界面，服务器端也 有CVSNT的版本，易用性正在提高。 </p>
+<p>CVS的功能除具备VSS的功能外，还具有： 它的客户机/服务器存取方法使得开发者可以从任何因特网的接入点存取最新的代码；它的无限制的版 本管理检出(checkout)的模式避免了通常的 因为排它检出模式而引起的人工冲突；它的客户端工具可以 在绝大多数的平台上使用。同样，CVS不提供对变更流程的自动管理功能。 </p>
+<p>一般来说，CVS的权限设置单一，通常只能通过CVSROOT/passwd, CVSROOT/readers, CVSROOT/writers文 件，同时还要设置CVS REPOS的物理目录权限来完成权限设置，无法完成复杂的 权限控制；但是CVS通过CVS ROOT目录下的脚本，提供了相应功 能扩充的接口，不但可以完成精细的 权限控制，还能完成更加个性化的功能。 </p>
+<p>CVS是开发源码软件，无需支付购买费用。 同样因为CVS是开发源码软件，没有生产厂家为其提供技术的支持。如发现问题，通常只能靠自己查找 网上的资料进行解决。</p>
+<h3 id="SVN"><a href="#SVN" class="headerlink" title="SVN"></a>SVN</h3><p>SVN全名Subversion，即版本控制系统。 </p>
+<p>SVN与CVS一样，是一个<strong>跨平台</strong>的软件，支持大多数常见的操作系统。作为一个<strong>开源</strong>的版本控制系 统,Subversion 管理着随时间改变的数据。 这些数据放置在一个中央资料档案库中。 这个档案库很像一 个普通的文件服务器, 不过它会记住每一次文件的变动。 这样你就可以把档案恢复到旧的版本, 或是浏 览文件的变动历史。Subversion 是一个通用的系统, 可用来管理任何类型的文件, 其中包括了程序源 码。 </p>
+<p>SubVersion：实现服务系统的软件。 </p>
+<p>TortoiseSVN：是SVN客户端程序，为windows外壳程序集成到windows资源管理器和文件管理系统的 Subversion客户端。 </p>
+<p>SVNService.exe：是专为 SubVersion 开发的一个用来作为 Win32 服务挂接的入口程序。 </p>
+<p>AnkhSVN：是一个专为Visual Studio提供SVN的插件。</p>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>Git是一个<strong>开源的分布式版本控制系统</strong>，用以有效、高速的处理从很小到非常大的项目版本管理. </p>
+<p>Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。 </p>
+<p>Torvalds 开始着手开发 Git 是为了作为一种过渡方案来替代 BitKeeper，后者之前一直是 Linux 内核开 发人员在全球使用的主要源代码工具。开放源码社区中的有些人觉得 BitKeeper 的许可证并不适合开 放源码社区的工作，因此 Torvalds 决定着手研究许可证更为灵活的版本控制系统。尽管最初 Git 的开发 是为了辅助 Linux 内核开发的过程，但是我们已经发现在很多其他自由软件项目中也使用了 Git。例如 最近就迁移到 Git 上来了，很多 Freedesktop 的项目也迁移到了 Git 上。</p>
+<h4 id="Git与SVN的区别"><a href="#Git与SVN的区别" class="headerlink" title="Git与SVN的区别"></a>Git与SVN的区别</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>Git</th>
+<th>SVN</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分布式系统</td>
+<td>是</td>
+<td>不是</td>
+</tr>
+<tr>
+<td>内容存储</td>
+<td>按元数据</td>
+<td>按文件</td>
+</tr>
+<tr>
+<td>分支</td>
+<td>是指向某次提交的指针，分支切换快；有本地分支</td>
+<td>是版本库的另一个目录；无本地分支</td>
+</tr>
+<tr>
+<td>全局版本号</td>
+<td>没有</td>
+<td>有</td>
+</tr>
+<tr>
+<td>内容完整性</td>
+<td>SHA-1哈希算法，更优</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210809221649638.png" alt="image-20210809221649638"></p>
+<h2 id="Git的使用"><a href="#Git的使用" class="headerlink" title="Git的使用"></a>Git的使用</h2><h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>下载地址 <a target="_blank" rel="noopener" href="https://www.git-scm.com/download/win">https://www.git-scm.com/download/win</a></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210809222221731.png" alt="image-20210809222221731"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210809222239556.png" alt="image-20210809222239556"></p>
+<h3 id="Git的工作区域"><a href="#Git的工作区域" class="headerlink" title="Git的工作区域"></a>Git的工作区域</h3><ul>
+<li>工作区</li>
+<li>暂存区</li>
+<li>仓库区</li>
+</ul>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810101446774.png" alt="image-20210810101446774"></p>
+<h3 id="Git操作"><a href="#Git操作" class="headerlink" title="Git操作"></a>Git操作</h3><h4 id="仓库初始化"><a href="#仓库初始化" class="headerlink" title="仓库初始化"></a>仓库初始化</h4><p>新建文件夹，进入目录后右击打开git bash,，借助以下指令初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>能看到自动生成的.git隐藏文件夹</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810101716754.png" alt="image-20210810101716754"></p>
+<h4 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="往仓库添加信息"><a href="#往仓库添加信息" class="headerlink" title="往仓库添加信息"></a>往仓库添加信息</h4><p>添加到暂存区</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add 文件名</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810103439731.png" alt="image-20210810103439731"></p>
+<p>全部添加到暂存区</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add *</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810104101087.png" alt="image-20210810104101087"></p>
+<p>将暂存区的更改信息提交到仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;描述信息&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810103659353.png" alt="image-20210810103659353"></p>
+<h4 id="修改信息"><a href="#修改信息" class="headerlink" title="修改信息"></a>修改信息</h4><p>将文件修改后按上述步骤重新提交即可</p>
+<h4 id="删除信息"><a href="#删除信息" class="headerlink" title="删除信息"></a>删除信息</h4><p>删除文件(工作区和仓库的指定文件都删除)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm 文件名</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810104302406.png" alt="image-20210810104302406"></p>
+<p>删除文件(工作区文件保留，仓库文件删除)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810104822723.png" alt="image-20210810104822723"></p>
+<p>删除目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm -r </span><br></pre></td></tr></table></figure>
+
+<p>所有的本地删除操作同样需要提交到本地仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;描述&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Git远程服务器"><a href="#Git远程服务器" class="headerlink" title="Git远程服务器"></a>Git远程服务器</h2><h3 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h3><p>访问地址 : <a target="_blank" rel="noopener" href="https://github.com/">https://github.com/</a></p>
+<p>gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管， 故名gitHub。</p>
+<h3 id="GitLab"><a href="#GitLab" class="headerlink" title="GitLab"></a>GitLab</h3><p>访问地址 : <a target="_blank" rel="noopener" href="https://git.lug.ustc.edu.cn/users/sign_in">https://git.lug.ustc.edu.cn/users/sign_in</a></p>
+<p> GitHub 和 GitLab 都是基于 web 的 Git 仓库，使用起来二者差不多</p>
+<p>GitHub 同时提供公共仓库和私有仓库，但如果使用私有仓库，是需要付费的。 </p>
+<p>GitLab 解决了这个问题，你<strong>可以在上面创建私人的免费仓库</strong>。</p>
+<h3 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h3><p>访问地址 : <a target="_blank" rel="noopener" href="https://gitee.com/">https://gitee.com/</a></p>
+<p>码云（Gitee）是 OSCHINA 推出的代码托管协作开发平台，支持 Git 和 SVN,提供免费的私有仓库托 管。</p>
+<p>国内用户使用gitee相比使用 GitHub，不必翻墙，访问速度更快，很少出现无法连接的情况。</p>
+<h2 id="Git管理远程仓库"><a href="#Git管理远程仓库" class="headerlink" title="Git管理远程仓库"></a>Git管理远程仓库</h2><h3 id="初始化git的基本信息"><a href="#初始化git的基本信息" class="headerlink" title="初始化git的基本信息"></a>初始化git的基本信息</h3><p>设置登录的账户信息: 用户名和邮箱地址是本地git客户端的一个变量，每次commit都会用用户名和邮箱记录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &#x27;用户名&#x27;</span><br><span class="line">git config --global user.email &#x27;邮箱&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>该设置在gitee仓库主页显示谁提交的文件,如果想要修改用户信息，则将该命令再执行一次</p>
+<p>查看设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810111836251.png" alt="image-20210810111836251"></p>
+<h3 id="从远程仓库中上传下载"><a href="#从远程仓库中上传下载" class="headerlink" title="从远程仓库中上传下载"></a>从远程仓库中上传下载</h3><p>在gitee上创建仓库</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810112813447.png" alt="image-20210810112813447"></p>
+<p>复制远程仓库的地址</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810112858454.png" alt="image-20210810112858454"></p>
+<p>在指定目录下打开git bash 输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810113505861.png" alt="image-20210810113505861"></p>
+<p>clone过程中可能需要输入Gitee的用户名和密码</p>
+<p>克隆完成后能在本地看到项目文件目录和内容</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810113557783.png" alt="image-20210810113557783"></p>
+<p>做自己的修改</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810113634068.png" alt="image-20210810113634068"></p>
+<p>重新提交到本地仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add *</span><br><span class="line">git commit -m &#x27;描述&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>添加到远程仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810113907698.png" alt="image-20210810113907698"></p>
+<p>远程仓库能看到更新的文件</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810113931254.png" alt="image-20210810113931254"></p>
+<h2 id="IDEA整合Git"><a href="#IDEA整合Git" class="headerlink" title="IDEA整合Git"></a>IDEA整合Git</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>安装Gitee插件</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810115658688.png" alt="image-20210810115658688"></p>
+<p>在settings中设置配置git客户端</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810120259573.png" alt="image-20210810120259573"></p>
+<p>添加git用户，这里只能用邮箱登录</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810120904006.png" alt="image-20210810120904006"></p>
+<h3 id="上传项目到gitee"><a href="#上传项目到gitee" class="headerlink" title="上传项目到gitee"></a>上传项目到gitee</h3><p>菜单栏 / VCS / Share Project on Gitee</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810121139935.png" alt="image-20210810121139935"></p>
+<p>填写上传的信息</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810121231023.png" alt="image-20210810121231023"></p>
+<p>选择上传的文件</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810121329302.png" alt="image-20210810121329302"></p>
+<p>上传完毕后能在gitee仓库中看到相关文件</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810121601985.png" alt="image-20210810121601985"></p>
+<h3 id="本地文件提交"><a href="#本地文件提交" class="headerlink" title="本地文件提交"></a>本地文件提交</h3><p>如果项目已上传到gitee但有新更改的内容需额外提交，可以做如下操作</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810122047076.png" alt="image-20210810122047076"></p>
+<h3 id="服务器文件同步到本地"><a href="#服务器文件同步到本地" class="headerlink" title="服务器文件同步到本地"></a>服务器文件同步到本地</h3><p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810122303129.png" alt="image-20210810122303129"></p>
+<h3 id="复制已有项目"><a href="#复制已有项目" class="headerlink" title="复制已有项目"></a>复制已有项目</h3><p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810122543022.png" alt="image-20210810122543022"></p>
+<p>选择项目目录即可</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20210810122619407.png" alt="image-20210810122619407"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">张海达</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://no-existence.github.io/06JavaWeb-8/">https://no-existence.github.io/06JavaWeb-8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://no-existence.github.io" target="_blank">Insular Oasis</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Git/">Git</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/git.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2-1%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/"><img class="prev-cover" src="/img/cover/Leetcode.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 二叉树练习</div></div></a></div><div class="next-post pull-right"><a href="/06JavaWeb-7/"><img class="next-cover" src="/img/cover/file.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文件上传与下载</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">张海达</div><div class="author-info__description">张海达的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/No-Existence"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/No-Existence" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">版本控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.</span> <span class="toc-text">版本控制工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Visual-Source-Safe-VSS%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">Visual Source Safe(VSS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Concurrent-Version-System-CVS%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">Concurrent Version System(CVS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVN"><span class="toc-number">1.1.3.</span> <span class="toc-text">SVN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git"><span class="toc-number">1.1.4.</span> <span class="toc-text">Git</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git%E4%B8%8ESVN%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">Git与SVN的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">Git的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.2.2.</span> <span class="toc-text">Git的工作区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.3.</span> <span class="toc-text">Git操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%93%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">仓库初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">查看状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%80%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">往仓库添加信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">修改信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">删除信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">Git远程服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Github"><span class="toc-number">1.3.1.</span> <span class="toc-text">Github</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GitLab"><span class="toc-number">1.3.2.</span> <span class="toc-text">GitLab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gitee"><span class="toc-number">1.3.3.</span> <span class="toc-text">Gitee</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E7%AE%A1%E7%90%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-number">1.4.</span> <span class="toc-text">Git管理远程仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96git%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.1.</span> <span class="toc-text">初始化git的基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E4%B8%AD%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.4.2.</span> <span class="toc-text">从远程仓库中上传下载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEA%E6%95%B4%E5%90%88Git"><span class="toc-number">1.5.</span> <span class="toc-text">IDEA整合Git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E9%A1%B9%E7%9B%AE%E5%88%B0gitee"><span class="toc-number">1.5.2.</span> <span class="toc-text">上传项目到gitee</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E6%8F%90%E4%BA%A4"><span class="toc-number">1.5.3.</span> <span class="toc-text">本地文件提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%87%E4%BB%B6%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="toc-number">1.5.4.</span> <span class="toc-text">服务器文件同步到本地</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E5%B7%B2%E6%9C%89%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.5.5.</span> <span class="toc-text">复制已有项目</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2-2%E5%A0%86%E4%B8%8E%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" title="Leetcode 堆练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 堆练习"/></a><div class="content"><a class="title" href="/2-2%E5%A0%86%E4%B8%8E%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" title="Leetcode 堆练习">Leetcode 堆练习</a><time datetime="2021-08-15T13:19:01.000Z" title="发表于 2021-08-15 21:19:01">2021-08-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2-1%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="Leetcode 二叉树练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 二叉树练习"/></a><div class="content"><a class="title" href="/2-1%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="Leetcode 二叉树练习">Leetcode 二叉树练习</a><time datetime="2021-08-11T05:14:20.000Z" title="发表于 2021-08-11 13:14:20">2021-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/06JavaWeb-8/" title="版本控制 Git"><img src="/img/cover/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="版本控制 Git"/></a><div class="content"><a class="title" href="/06JavaWeb-8/" title="版本控制 Git">版本控制 Git</a><time datetime="2021-08-10T13:40:49.000Z" title="发表于 2021-08-10 21:40:49">2021-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/06JavaWeb-7/" title="文件上传与下载"><img src="/img/cover/file.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文件上传与下载"/></a><div class="content"><a class="title" href="/06JavaWeb-7/" title="文件上传与下载">文件上传与下载</a><time datetime="2021-08-09T09:40:49.000Z" title="发表于 2021-08-09 17:40:49">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/06JavaWeb-6/" title="Ajax"><img src="/img/cover/Ajax.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ajax"/></a><div class="content"><a class="title" href="/06JavaWeb-6/" title="Ajax">Ajax</a><time datetime="2021-08-09T01:58:21.000Z" title="发表于 2021-08-09 09:58:21">2021-08-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 张海达</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
