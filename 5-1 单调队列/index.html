@@ -1,0 +1,579 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leetcode 单调队列练习 | Insular Oasis</title><meta name="keywords" content="Leetcode,数据结构"><meta name="author" content="张海达"><meta name="copyright" content="张海达"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="5-1 单调队列理论RMQ问题Range Max&#x2F;Min Query 。 查询数组中给定区间内部的最值问题。 RMQ问题可能会做多次查询，O(n)时间复杂度的查询可能不符合条件。    单调队列是解决维护滑动窗口过程中的最值问题  典型例题  12345678910111213141516171819202122232425262728import java.util.LinkedList;imp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 单调队列练习">
+<meta property="og:url" content="https://no-existence.github.io/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="Insular Oasis">
+<meta property="og:description" content="5-1 单调队列理论RMQ问题Range Max&#x2F;Min Query 。 查询数组中给定区间内部的最值问题。 RMQ问题可能会做多次查询，O(n)时间复杂度的查询可能不符合条件。    单调队列是解决维护滑动窗口过程中的最值问题  典型例题  12345678910111213141516171819202122232425262728import java.util.LinkedList;imp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://no-existence.github.io/img/cover/Leetcode.png">
+<meta property="article:published_time" content="2022-04-25T04:20:01.000Z">
+<meta property="article:modified_time" content="2022-05-17T04:55:58.657Z">
+<meta property="article:author" content="张海达">
+<meta property="article:tag" content="Leetcode">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://no-existence.github.io/img/cover/Leetcode.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://no-existence.github.io/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Leetcode 单调队列练习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 12:55:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/Leetcode.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Insular Oasis</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Leetcode 单调队列练习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-25T04:20:01.000Z" title="发表于 2022-04-25 12:20:01">2022-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T04:55:58.657Z" title="更新于 2022-05-17 12:55:58">2022-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Leetcode 单调队列练习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="5-1-单调队列"><a href="#5-1-单调队列" class="headerlink" title="5-1 单调队列"></a>5-1 单调队列</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><h3 id="RMQ问题"><a href="#RMQ问题" class="headerlink" title="RMQ问题"></a>RMQ问题</h3><p>Range Max/Min Query 。 查询数组中给定区间内部的最值问题。</p>
+<p>RMQ问题可能会做多次查询，O(n)时间复杂度的查询可能不符合条件。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220410173314475.png" alt="image-20220410173314475"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220410173747657.png" alt="image-20220410173747657"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220410173844159.png" alt="image-20220410173844159"></p>
+<p>单调队列是解决维护滑动窗口过程中的最值问题</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220410174613268.png" alt="image-20220410174613268"></p>
+<p><strong>典型例题</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220410175351373.png" alt="image-20220410175351373"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MRQ</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner((System.in));</span><br><span class="line">        <span class="keyword">int</span> N = scanner.nextInt();</span><br><span class="line">        <span class="keyword">int</span> K = scanner.nextInt();</span><br><span class="line">        <span class="keyword">int</span> [] arr = <span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">        LinkedList&lt;Integer&gt; Q = <span class="keyword">new</span> LinkedList&lt;&gt;(); <span class="comment">//双向队列，存放下标</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取数据</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++) arr[i] =scanner.nextInt();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 维护单调队列 （最小）</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">            <span class="comment">// 将队列尾部比arr[i]大的元素都出队</span></span><br><span class="line">            <span class="keyword">while</span>(!Q.isEmpty()&amp;&amp;arr[Q.getLast()]&gt;arr[i]) Q.removeLast();</span><br><span class="line">            <span class="comment">// 将当前元素入队</span></span><br><span class="line">            Q.addLast(i);</span><br><span class="line">            <span class="comment">//  队列首元素离开滑动窗口。窗口每次循环只移动一次，故只需考虑队首元素</span></span><br><span class="line">            <span class="keyword">if</span>(i-Q.getFirst()==K) Q.removeFirst();</span><br><span class="line">            <span class="comment">// i&gt;K时才完整覆盖一个长度为K的窗口，才会做输出</span></span><br><span class="line">            <span class="keyword">if</span>(i&gt;K) System.out.println(arr[Q.getFirst()]);</span><br><span class="line">        &#125;</span><br><span class="line">        scanner.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="相关练习"><a href="#相关练习" class="headerlink" title="相关练习"></a>相关练习</h2><h3 id="LC239-剑指-Offer-59-I-滑动窗口最大值-Hard"><a href="#LC239-剑指-Offer-59-I-滑动窗口最大值-Hard" class="headerlink" title="LC239/剑指 Offer 59 - I 滑动窗口最大值 [Hard]"></a>LC239/剑指 Offer 59 - I <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sliding-window-maximum/">滑动窗口最大值</a> [Hard]</h3><p>给你一个整数数组 <code>nums</code>，有一个大小为&nbsp;<code>k</code><em>&nbsp;</em>的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 <code>k</code>&nbsp;个数字。滑动窗口每次只向右移动一位。</p>
+
+<p>返回 <em>滑动窗口中的最大值 </em>。</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1,3,-1,-3,5,3,6,7], k = 3
+<b>输出：</b>[3,3,5,5,6,7]
+<b>解释：</b>
+滑动窗口的位置                最大值
+---------------               -----
+[1  3  -1] -3  5  3  6  7       <strong>3</strong>
+ 1 [3  -1  -3] 5  3  6  7       <strong>3</strong>
+ 1  3 [-1  -3  5] 3  6  7      <strong> 5</strong>
+ 1  3  -1 [-3  5  3] 6  7       <strong>5</strong>
+ 1  3  -1  -3 [5  3  6] 7       <strong>6</strong>
+ 1  3  -1  -3  5 [3  6  7]      <strong>7</strong>
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [1], k = 1
+<b>输出：</b>[1]
+</pre>
+<p><b>提示：</b></p>
+
+<ul>
+    <li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+    <li><code>-10<sup>4</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+    <li><code>1 &lt;= k &lt;= nums.length</code></li>
+</ul>
+
+
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>RMQ问题，维护递减的单调队列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] maxSlidingWindow(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        LinkedList&lt;Integer&gt; Q = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> [] result = <span class="keyword">new</span> <span class="keyword">int</span> [n-k+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> m=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!Q.isEmpty()&amp;&amp;nums[Q.getLast()]&lt;nums[i]) Q.removeLast();</span><br><span class="line">            Q.addLast(i);</span><br><span class="line">            <span class="keyword">if</span>(i-Q.getFirst()==k) Q.removeFirst();</span><br><span class="line">            <span class="keyword">if</span>(i+<span class="number">1</span>&gt;=k) result[m++]=nums[Q.getFirst()];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC862-和至少为-K-的最短子数组-Hard"><a href="#LC862-和至少为-K-的最短子数组-Hard" class="headerlink" title="**LC862 和至少为 K 的最短子数组[Hard]"></a>**LC862 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shortest-subarray-with-sum-at-least-k/">和至少为 K 的最短子数组</a>[Hard]</h3><p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，找出 <code>nums</code> 中和至少为 <code>k</code> 的 <strong>最短非空子数组</strong> ，并返回该子数组的长度。如果不存在这样的 <strong>子数组</strong> ，返回 <code>-1</code> 。</p>
+
+<p><strong>子数组</strong> 是数组中 <strong>连续</strong> 的一部分。</p>
+
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1], k = 1
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2], k = 4
+<strong>输出：</strong>-1
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [2,-1,2], k = 3
+<strong>输出：</strong>3
+</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+    <li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+    <li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
+</ul>
+
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shortestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">long</span> [] preSum = <span class="keyword">new</span> <span class="keyword">long</span> [n+<span class="number">1</span>];</span><br><span class="line">        LinkedList&lt;Integer&gt; Q =<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        preSum[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) preSum[i]=preSum[i-<span class="number">1</span>]+nums[i-<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> pos = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> result = n+<span class="number">1</span>;</span><br><span class="line">        Q.addFirst(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="comment">// 相当于维护滑动窗口[Q.front()+1,i] 使得其之间元素之和大于等于k</span></span><br><span class="line">            <span class="comment">// 每次循环右边界右移一位，同时需要左边界根据单调队列后移</span></span><br><span class="line">            <span class="keyword">while</span>(!Q.isEmpty()&amp;&amp;preSum[i]-preSum[Q.getFirst()]&gt;=k)&#123;</span><br><span class="line">                pos=Q.removeFirst();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(pos!=-<span class="number">1</span>&amp;&amp;i-pos&lt;result) result = i-pos;</span><br><span class="line">            <span class="comment">// 维护一个preSum单调递增的单调队列Q</span></span><br><span class="line">            <span class="keyword">while</span>(!Q.isEmpty()&amp;&amp;preSum[i]&lt;=preSum[Q.getLast()])</span><br><span class="line">                Q.removeLast();</span><br><span class="line">            Q.addLast(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(result==n+<span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC1438-绝对差不超过限制的最长连续子数组-Medium"><a href="#LC1438-绝对差不超过限制的最长连续子数组-Medium" class="headerlink" title="*LC1438 绝对差不超过限制的最长连续子数组[Medium]"></a>*LC1438 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/">绝对差不超过限制的最长连续子数组</a>[Medium]</h3><p>给你一个整数数组 nums ，和一个表示限制的整数 limit，请你返回最长连续子数组的长度，该子数组中的任意两个元素之间的绝对差必须小于或者等于 limit 。</p>
+<p>如果不存在满足条件的子数组，则返回 0 。</p>
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [8,2,4,7], limit = 4</span><br><span class="line">输出：2 </span><br><span class="line">解释：所有子数组如下：</span><br><span class="line">[8] 最大绝对差 |8-8| = 0 &lt;= 4.</span><br><span class="line">[8,2] 最大绝对差 |8-2| = 6 &gt; 4. </span><br><span class="line">[8,2,4] 最大绝对差 |8-2| = 6 &gt; 4.</span><br><span class="line">[8,2,4,7] 最大绝对差 |8-2| = 6 &gt; 4.</span><br><span class="line">[2] 最大绝对差 |2-2| = 0 &lt;= 4.</span><br><span class="line">[2,4] 最大绝对差 |2-4| = 2 &lt;= 4.</span><br><span class="line">[2,4,7] 最大绝对差 |2-7| = 5 &gt; 4.</span><br><span class="line">[4] 最大绝对差 |4-4| = 0 &lt;= 4.</span><br><span class="line">[4,7] 最大绝对差 |4-7| = 3 &lt;= 4.</span><br><span class="line">[7] 最大绝对差 |7-7| = 0 &lt;= 4. </span><br><span class="line">因此，满足题意的最长子数组的长度为 2 。</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><p>二分答案+单调队列。</p>
+<p>如果一个序列的最大值和最小值的差不超过limit，那么我们可以认为这个序列是满足条件的。因此我们需要动态地维护一个序列的最大值和最小值，但本题窗口大小是不固定的，不能简单套用上题的模板。</p>
+<p>考虑到窗口大小很大时符合题意得窗口更可能不存在，很小时这样的窗口一定存在。为此，我们二分答案。 </p>
+<p>如果给定固定大小的窗口，滑动该窗口，在其中动态维护窗口序列的最大值和最小值，用到递增和递减两个单调队列。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> right = nums.length;</span><br><span class="line">       <span class="keyword">int</span> left = <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span>  mid ;</span><br><span class="line">       <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">           mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">           <span class="keyword">if</span>(check(nums,mid,limit)) left=mid+<span class="number">1</span>;</span><br><span class="line">           <span class="keyword">else</span> right=mid-<span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> []nums,<span class="keyword">int</span> k,<span class="keyword">int</span> limit)</span></span>&#123;</span><br><span class="line">        LinkedList&lt;Integer&gt; maxQ = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        LinkedList&lt;Integer&gt; minQ = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!minQ.isEmpty()&amp;&amp;nums[minQ.getLast()]&gt;nums[i])</span><br><span class="line">                minQ.removeLast();</span><br><span class="line">            minQ.addLast(i);</span><br><span class="line">            <span class="keyword">if</span>(i-minQ.getFirst()==k) minQ.removeFirst();</span><br><span class="line">            <span class="keyword">while</span>(!maxQ.isEmpty()&amp;&amp;nums[maxQ.getLast()]&lt;nums[i])</span><br><span class="line">                maxQ.removeLast();</span><br><span class="line">            maxQ.addLast(i);</span><br><span class="line">            <span class="keyword">if</span>(i+<span class="number">1</span>&lt;k) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(i-maxQ.getFirst()==k) maxQ.removeFirst();</span><br><span class="line">            <span class="keyword">if</span>(nums[maxQ.getFirst()]-nums[minQ.getFirst()]&lt;=limit) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="其他练习"><a href="#其他练习" class="headerlink" title="其他练习"></a>其他练习</h2><h3 id="LC45-跳跃游戏-II-Medium"><a href="#LC45-跳跃游戏-II-Medium" class="headerlink" title="LC45 跳跃游戏 II[Medium]"></a>LC45 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jump-game-ii/">跳跃游戏 II</a>[Medium]</h3><p>给你一个非负整数数组 <code>nums</code> ，你最初位于数组的第一个位置。</p>
+
+<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+
+<p>你的目标是使用最少的跳跃次数到达数组的最后一个位置。</p>
+
+<p>假设你总是可以到达数组的最后一个位置。</p>
+
+<p> </p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [2,3,1,1,4]
+<strong>输出:</strong> 2
+<strong>解释:</strong> 跳到最后一个位置的最小跳跃数是 <code>2</code>。
+     从下标为 0 跳到下标为 1 的位置，跳 <code>1</code> 步，然后跳 <code>3</code> 步到达数组的最后一个位置。
+</pre>
+
+<p><strong>示例 2:</strong></p>
+
+<pre>
+<strong>输入:</strong> nums = [2,3,0,1,4]
+<strong>输出:</strong> 2
+</pre>
+
+<p> </p>
+
+<p><strong>提示:</strong></p>
+
+<ul>
+    <li><code>1 <= nums.length <= 10<sup>4</sup></code></li>
+    <li><code>0 <= nums[i] <= 1000</code></li>
+</ul>
+
+
+
+<h4 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h4><p>贪心+反向查找。</p>
+<p>先建一张表表示每个结点可被跳到的结点最小下标。</p>
+<p>再从最后一个结点开始根据该表往前跳，跳到起点的跳数就是答案。</p>
+<p>这里可以用贪心的原因是如果结点 i 是能跳到结点 j 的最小下标结点，那么如果我选能到达结点 j 的结点k 且 i&lt;k&lt;j ，就需要先跳到k再跳到i（既然i能到达j，那么 i也能到k），这样多一步。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n=nums.length;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> [] from = <span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line">        Arrays.fill(from,n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=nums[i]&amp;&amp;i+j&lt;n;j++)&#123;</span><br><span class="line">                from[i+j] = Math.min(from[i+j],i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> p = n-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            p=from[p];</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;<span class="keyword">while</span>(p!=<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC1760-袋子里最少数目的球-Medium"><a href="#LC1760-袋子里最少数目的球-Medium" class="headerlink" title="LC1760  袋子里最少数目的球[Medium]"></a>LC1760 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-limit-of-balls-in-a-bag/"> 袋子里最少数目的球</a>[Medium]</h3><p>给你一个整数数组 <code>nums</code> ，其中 <code>nums[i]</code> 表示第 <code>i</code> 个袋子里球的数目。同时给你一个整数 <code>maxOperations</code> 。</p>
+
+<p>你可以进行如下操作至多 <code>maxOperations</code> 次：</p>
+
+<ul>
+    <li>选择任意一个袋子，并将袋子里的球分到 2 个新的袋子中，每个袋子里都有 <strong>正整数</strong> 个球。
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;比方说，一个袋子里有 &lt;code&gt;5&lt;/code&gt; 个球，你可以把它们分到两个新袋子里，分别有 &lt;code&gt;1&lt;/code&gt; 个和 &lt;code&gt;4&lt;/code&gt; 个球，或者分别有 &lt;code&gt;2&lt;/code&gt; 个和 &lt;code&gt;3&lt;/code&gt; 个球。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+</code></pre>
+</ul>
+
+<p>你的开销是单个袋子里球数目的 <strong>最大值</strong> ，你想要 <strong>最小化</strong> 开销。</p>
+
+<p>请你返回进行上述操作后的最小开销。</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [9], maxOperations = 2
+<b>输出：</b>3
+<b>解释：</b>
+- 将装有 9 个球的袋子分成装有 6 个和 3 个球的袋子。[<strong>9</strong>] -> [6,3] 。
+- 将装有 6 个球的袋子分成装有 3 个和 3 个球的袋子。[<strong>6</strong>,3] -> [3,3,3] 。
+装有最多球的袋子里装有 3 个球，所以开销为 3 并返回 3 。
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [2,4,8,2], maxOperations = 4
+<b>输出：</b>2
+<strong>解释：</strong>
+- 将装有 8 个球的袋子分成装有 4 个和 4 个球的袋子。[2,4,<strong>8</strong>,2] -> [2,4,4,4,2] 。
+- 将装有 4 个球的袋子分成装有 2 个和 2 个球的袋子。[2,<strong>4</strong>,4,4,2] -> [2,2,2,4,4,2] 。
+- 将装有 4 个球的袋子分成装有 2 个和 2 个球的袋子。[2,2,2,<strong>4</strong>,4,2] -> [2,2,2,2,2,4,2] 。
+- 将装有 4 个球的袋子分成装有 2 个和 2 个球的袋子。[2,2,2,2,2,<strong>4</strong>,2] -> [2,2,2,2,2,2,2,2] 。
+装有最多球的袋子里装有 2 个球，所以开销为 2 并返回 2 。
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<b>输入：</b>nums = [7,17], maxOperations = 2
+<b>输出：</b>7
+</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
+    <li><code>1 <= maxOperations, nums[i] <= 10<sup>9</sup></code></li>
+</ul>
+
+<h4 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h4><p>二分答案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumSize</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> maxOperations)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> right=-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) right = Math.max(right,nums[i]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">            mid=(left+right)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(check(nums,mid,maxOperations)) right=mid;</span><br><span class="line">            <span class="keyword">else</span> left=mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> [] nums,<span class="keyword">int</span> k,<span class="keyword">int</span> opt)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            cnt += nums[i]/k + (nums[i]%k==<span class="number">0</span>?<span class="number">0</span>:<span class="number">1</span>) -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> opt&gt;=cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC513-找树左下角的值-Medium"><a href="#LC513-找树左下角的值-Medium" class="headerlink" title="LC513 找树左下角的值 [Medium]"></a>LC513 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-bottom-left-tree-value/">找树左下角的值</a> [Medium]</h3><p>给定一个二叉树的 <strong>根节点</strong> <code>root</code>，请找出该二叉树的 <strong>最底层 最左边</strong> 节点的值。</p>
+<p>假设二叉树中至少有一个节点。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220413220754845.png" alt="image-20220413220754845"></p>
+<h4 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h4><p>深搜。</p>
+<p>把深搜过程中根据深度把结点放到对应的列表里，最后取最后一个列表的首个值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt; &gt; list ;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findBottomLeftValue</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        dfs(root,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> n=list.size();</span><br><span class="line">        <span class="keyword">return</span> list.get(n-<span class="number">1</span>).get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> depth)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>) <span class="keyword">return</span> ;</span><br><span class="line">        <span class="keyword">if</span>(list.size()&lt;=depth)&#123;</span><br><span class="line">            list.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">            list.get(depth).add(root.val);</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(root.left,depth+<span class="number">1</span>);</span><br><span class="line">        dfs(root.right,depth+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC46全排列-Medium"><a href="#LC46全排列-Medium" class="headerlink" title="LC46全排列 [Medium]"></a>LC46<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/">全排列</a> [Medium]</h3><p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220413222453152.png" alt="image-20220413222453152"></p>
+<h4 id="思路-6"><a href="#思路-6" class="headerlink" title="思路"></a>思路</h4><p>DFS的思想，每次扩展的子结点是当前未被使用的数组元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; result ;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; permute(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++) list.add(nums[i]);</span><br><span class="line">        dfs(<span class="keyword">new</span> ArrayList&lt;&gt;(),list);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;Integer&gt; list1,List&lt;Integer&gt; list2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(list2.size()==<span class="number">0</span>)&#123;</span><br><span class="line">            result.add(list1);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(Integer i:list2)&#123;</span><br><span class="line">            List&lt;Integer&gt; list3 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            List&lt;Integer&gt; list4 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            list3.addAll(list1);</span><br><span class="line">            list4.addAll(list2);</span><br><span class="line">            list3.add(i);</span><br><span class="line">            list4.remove(i);</span><br><span class="line">            dfs(list3,list4);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC43-字符串相乘-Medium"><a href="#LC43-字符串相乘-Medium" class="headerlink" title="LC43 字符串相乘[Medium]"></a>LC43 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/multiply-strings/">字符串相乘</a>[Medium]</h3><p>给定两个以字符串形式表示的非负整数&nbsp;<code>num1</code>&nbsp;和&nbsp;<code>num2</code>，返回&nbsp;<code>num1</code>&nbsp;和&nbsp;<code>num2</code>&nbsp;的乘积，它们的乘积也表示为字符串形式。</p>
+
+<p><strong>注意：</strong>不能使用任何内置的 BigInteger 库或直接将输入转换为整数。</p>
+
+<p><strong>示例 1:</strong></p>
+
+<pre>
+<strong>输入:</strong> num1 = "2", num2 = "3"
+<strong>输出:</strong> "6"</pre>
+
+<p><strong>示例&nbsp;2:</strong></p>
+
+<pre>
+<strong>输入:</strong> num1 = "123", num2 = "456"
+<strong>输出:</strong> "56088"</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>1 &lt;= num1.length, num2.length &lt;= 200</code></li>
+    <li><code>num1</code>&nbsp;和 <code>num2</code>&nbsp;只能由数字组成。</li>
+    <li><code>num1</code>&nbsp;和 <code>num2</code>&nbsp;都不包含任何前导零，除了数字0本身。</li>
+</ul>
+
+<h4 id="思路-7"><a href="#思路-7" class="headerlink" title="思路"></a>思路</h4><p>依次实现大整数乘以单位数，两个大整数相加，迭代算两个大整数相乘。</p>
+<p>注：使用快速傅里叶变换加速卷积计算可以将时间复杂度降低到 $O(clogc)$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">multiply</span><span class="params">(String num1, String num2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(num1.equals(<span class="string">&quot;0&quot;</span>)||num2.equals(<span class="string">&quot;0&quot;</span>)) <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        String result = <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=num2.length()-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">int</span> k=num2.charAt(i)-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            result = plus(result,multiplyOne(num1,k));</span><br><span class="line">            num1=num1+<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">multiplyOne</span><span class="params">(String num,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(k==<span class="number">0</span>) <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(k==<span class="number">1</span>) <span class="keyword">return</span> num;</span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer(num).reverse();</span><br><span class="line">        StringBuffer result = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;sb.length();i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> r = (sb.charAt(i)-<span class="string">&#x27;0&#x27;</span>)*k+carry;</span><br><span class="line">            carry = r/<span class="number">10</span>;</span><br><span class="line">            result.append((<span class="keyword">char</span>)(<span class="string">&#x27;0&#x27;</span>+r%<span class="number">10</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(carry!=<span class="number">0</span>) result.append((<span class="keyword">char</span>)(<span class="string">&#x27;0&#x27;</span>+carry%<span class="number">10</span>));</span><br><span class="line">        <span class="keyword">return</span> result.reverse().toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">plus</span><span class="params">(String num1,String num2)</span></span>&#123;</span><br><span class="line">        StringBuffer s1 = <span class="keyword">new</span> StringBuffer(num1).reverse();</span><br><span class="line">        StringBuffer s2 = <span class="keyword">new</span> StringBuffer(num2).reverse();</span><br><span class="line">        StringBuffer result = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s1.length()||i&lt;s2.length();i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> n1 = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> n2 = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(i&lt;s1.length()) n1=s1.charAt(i)-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(i&lt;s2.length()) n2=s2.charAt(i)-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            <span class="keyword">int</span> r = n1+n2+carry;</span><br><span class="line">            carry = r/<span class="number">10</span>;</span><br><span class="line">            result.append((<span class="keyword">char</span>)(<span class="string">&#x27;0&#x27;</span>+r%<span class="number">10</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(carry!=<span class="number">0</span>) result.append((<span class="keyword">char</span>)(<span class="string">&#x27;0&#x27;</span>+carry%<span class="number">10</span>));</span><br><span class="line">        <span class="keyword">return</span> result.reverse().toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC135-分发糖果-Hard"><a href="#LC135-分发糖果-Hard" class="headerlink" title="LC135 分发糖果[Hard]"></a>LC135 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/candy/">分发糖果</a>[Hard]</h3><p><code>n</code> 个孩子站成一排。给你一个整数数组 <code>ratings</code> 表示每个孩子的评分。</p>
+
+<p>你需要按照以下要求，给这些孩子分发糖果：</p>
+
+<ul>
+    <li>每个孩子至少分配到 <code>1</code> 个糖果。</li>
+    <li>相邻两个孩子评分更高的孩子会获得更多的糖果。</li>
+</ul>
+
+<p>请你给每个孩子分发糖果，计算并返回需要准备的 <strong>最少糖果数目</strong> 。</p>
+
+<p><strong>示例&nbsp;1：</strong></p>
+
+<pre>
+<strong>输入：</strong>ratings = [1,0,2]
+<strong>输出：</strong>5
+<strong>解释：</strong>你可以分别给第一个、第二个、第三个孩子分发 2、1、2 颗糖果。
+</pre>
+
+<p><strong>示例&nbsp;2：</strong></p>
+
+<pre>
+<strong>输入：</strong>ratings = [1,2,2]
+<strong>输出：</strong>4
+<strong>解释：</strong>你可以分别给第一个、第二个、第三个孩子分发 1、2、1 颗糖果。
+     第三个孩子只得到 1 颗糖果，这满足题面中的两个条件。</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>n == ratings.length</code></li>
+    <li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
+    <li><code>0 &lt;= ratings[i] &lt;= 2 * 10<sup>4</sup></code></li>
+</ul>
+
+<h4 id="思路-8"><a href="#思路-8" class="headerlink" title="思路"></a>思路</h4><p>设置两个数组asc和desc，元素都初始化为1。</p>
+<p>正序遍历一遍ratings，检查相邻的两个元素的值得变化趋势，如果增加，则设后者对应的asc为前者asc+1，否则不处理。</p>
+<p>倒序遍历一遍ratings，做相同的操作记录再desc。</p>
+<p>最后的结果是asc和desc对应元素的最大值之和。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">candy</span><span class="params">(<span class="keyword">int</span>[] ratings)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = ratings.length;</span><br><span class="line">        <span class="keyword">int</span> []asc = <span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line">        <span class="keyword">int</span> []desc= <span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line">        Arrays.fill(asc,<span class="number">1</span>);</span><br><span class="line">        Arrays.fill(desc,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ratings[i]&gt;ratings[i-<span class="number">1</span>]) asc[i]=asc[i-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=n-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ratings[i]&gt;ratings[i+<span class="number">1</span>]) desc[i]=desc[i+<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            result+=Math.max(asc[i],desc[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC93-复原-IP-地址-Medium"><a href="#LC93-复原-IP-地址-Medium" class="headerlink" title="LC93  复原 IP 地址[Medium]"></a>LC93  <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/restore-ip-addresses/">复原 IP 地址</a>[Medium]</h3><p><strong>有效 IP 地址</strong> 正好由四个整数（每个整数位于 <code>0</code> 到 <code>255</code> 之间组成，且不能含有前导 <code>0</code>），整数之间用 <code>'.'</code> 分隔。</p>
+
+<ul>
+   <li>例如：<code>"0.1.2.201"</code> 和<code> "192.168.1.1"</code> 是 <strong>有效</strong> IP 地址，但是 <code>"0.011.255.245"</code>、<code>"192.168.1.312"</code> 和 <code>"192.168@1.1"</code> 是 <strong>无效</strong> IP 地址。</li>
+</ul>
+
+<p>给定一个只包含数字的字符串 <code>s</code> ，用以表示一个 IP 地址，返回所有可能的<strong>有效 IP 地址</strong>，这些地址可以通过在 <code>s</code> 中插入&nbsp;<code>'.'</code> 来形成。你 <strong>不能</strong>&nbsp;重新排序或删除 <code>s</code> 中的任何数字。你可以按 <strong>任何</strong> 顺序返回答案。</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "25525511135"
+<strong>输出：</strong>["255.255.11.135","255.255.111.35"]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "0000"
+<strong>输出：</strong>["0.0.0.0"]
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>s = "101023"
+<strong>输出：</strong>["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+   <li><code>1 &lt;= s.length &lt;= 20</code></li>
+   <li><code>s</code> 仅由数字组成</li>
+</ul>
+
+<h4 id="思路-9"><a href="#思路-9" class="headerlink" title="思路"></a>思路</h4><p>先生成所有可能的ip地址，再检查每个ip地址内的四个子串是否合法。</p>
+<p>第一步，等价于往原字符串中插入三个点，共有 $C(n-2,3)&lt;=3876$  种可能产生串。我们先用<u>深搜</u>生成所有的这样的三元组，三元组$(p_1,p_2,p_3)$三个数递增且每个数表示在下标为 $p_i$ 的字符后插入 <code>.</code> 。随后根据这样的三元组生成所有可能的ip串。</p>
+<p>第二步，用Java自带的split方法来分割产生的ip串，检查四个数<u>无前导0且在合法范围内</u>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; threePairs ; <span class="comment">// 存放三元组的列表</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> len ;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">restoreIpAddresses</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        threePairs = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        len=s.length();</span><br><span class="line">        dfs(<span class="number">0</span>,<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(List&lt;Integer&gt; pair:threePairs)&#123;</span><br><span class="line">            String ip = generateIP(s,pair);</span><br><span class="line">            <span class="keyword">if</span>(check(ip)) result.add(ip);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> index,List&lt;Integer&gt; list)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(list.size()==<span class="number">3</span>)&#123;</span><br><span class="line">            threePairs.add(list);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(index&gt;=len-<span class="number">1</span>||list.size()&gt;<span class="number">3</span>) <span class="keyword">return</span> ;</span><br><span class="line">        dfs(index+<span class="number">1</span>,list);</span><br><span class="line">        List&lt;Integer&gt; cList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        cList.addAll(list);</span><br><span class="line">        cList.add(index);</span><br><span class="line">        dfs(index+<span class="number">1</span>,cList);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">        String[] split = s.split(<span class="string">&quot;\\.&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(String num: split)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num.length()&gt;<span class="number">3</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span>(num.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>&amp;&amp;num.length()!=<span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span> ; <span class="comment">// 前导0是无效的</span></span><br><span class="line">            <span class="keyword">int</span> n = Integer.parseInt(num);</span><br><span class="line">            <span class="keyword">if</span>(n&lt;<span class="number">0</span>||n&gt;<span class="number">255</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">generateIP</span><span class="params">(String s,List&lt;Integer&gt; split)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> sp:split)&#123;</span><br><span class="line">            sb.append(s.substring(left,sp+<span class="number">1</span>)+<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">            left=sp+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(s.substring(left));</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC468-验证IP地址-Medium"><a href="#LC468-验证IP地址-Medium" class="headerlink" title="LC468 验证IP地址[Medium]"></a>LC468 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/validate-ip-address/">验证IP地址</a>[Medium]</h3><p>给定一个字符串&nbsp;<code>queryIP</code>。如果是有效的 IPv4 地址，返回 <code>"IPv4"</code> ；如果是有效的 IPv6 地址，返回 <code>"IPv6"</code> ；如果不是上述类型的 IP 地址，返回 <code>"Neither"</code> 。</p>
+
+<p><strong>有效的IPv4地址</strong> 是 <code>“x1.x2.x3.x4”</code> 形式的IP地址。 其中&nbsp;<code>0 &lt;= x<sub>i</sub>&nbsp;&lt;= 255</code>&nbsp;且&nbsp;<code>x<sub>i</sub></code>&nbsp;<strong>不能包含</strong> 前导零。例如:&nbsp;<code>“192.168.1.1”</code>&nbsp;、 <code>“192.168.1.0”</code> 为有效IPv4地址， <code>“192.168.01.1”</code> 为无效IPv4地址; <code>“192.168.1.00”</code> 、 <code>“192.168@1.1”</code> 为无效IPv4地址。</p>
+
+<p><strong>一个有效的IPv6地址&nbsp;</strong>是一个格式为<code>“x1:x2:x3:x4:x5:x6:x7:x8”</code> 的IP地址，其中:</p>
+
+<ul>
+    <li><code>1 &lt;= x<sub>i</sub>.length &lt;= 4</code></li>
+    <li><code>x<sub>i</sub></code>&nbsp;是一个 <strong>十六进制字符串</strong> ，可以包含数字、小写英文字母( <code>'a'</code> 到 <code>'f'</code> )和大写英文字母( <code>'A'</code> 到 <code>'F'</code> )。</li>
+    <li>在&nbsp;<code>x<sub>i</sub></code>&nbsp;中允许前导零。</li>
+</ul>
+
+<p>例如 <code>"2001:0db8:85a3:0000:0000:8a2e:0370:7334"</code> 和 <code>"2001:db8:85a3:0:0:8A2E:0370:7334"</code> 是有效的 IPv6 地址，而 <code>"2001:0db8:85a3::8A2E:037j:7334"</code> 和 <code>"02001:0db8:85a3:0000:0000:8a2e:0370:7334"</code> 是无效的 IPv6 地址。</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>queryIP = "172.16.254.1"
+<strong>输出：</strong>"IPv4"
+<strong>解释：</strong>有效的 IPv4 地址，返回 "IPv4"
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>queryIP = "2001:0db8:85a3:0:0:8A2E:0370:7334"
+<strong>输出：</strong>"IPv6"
+<strong>解释：</strong>有效的 IPv6 地址，返回 "IPv6"
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>queryIP = "256.256.256.256"
+<strong>输出：</strong>"Neither"
+<strong>解释：</strong>既不是 IPv4 地址，又不是 IPv6 地址
+</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>queryIP</code> 仅由英文字母，数字，字符 <code>'.'</code> 和 <code>':'</code> 组成。</li>
+</ul>
+
+<h4 id="思路-10"><a href="#思路-10" class="headerlink" title="思路"></a>思路</h4><p>用Java的split函数做字符串分割。</p>
+<p>需要注意的用例  <code>&quot;&quot;</code> 、 <code>&quot;1.1.1.1.&quot;</code> 、  <code>&quot;.1.1.1.1&quot;</code> 、<code>&quot;1..1.1.1&quot;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">validIPAddress</span><span class="params">(String queryIP)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(queryIP.length()&lt;<span class="number">7</span>) <span class="keyword">return</span> <span class="string">&quot;Neither&quot;</span>;</span><br><span class="line">        <span class="keyword">char</span> lastC = queryIP.charAt(queryIP.length()-<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span>(!Character.isDigit(lastC)&amp;&amp;!check16(lastC)) <span class="keyword">return</span> <span class="string">&quot;Neither&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(queryIP.contains(<span class="string">&quot;.&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span>(checkIPv4(queryIP)) <span class="keyword">return</span> <span class="string">&quot;IPv4&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queryIP.contains(<span class="string">&quot;:&quot;</span>))&#123;</span><br><span class="line">            <span class="keyword">if</span>(checkIPv6(queryIP)) <span class="keyword">return</span> <span class="string">&quot;IPv6&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Neither&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkIPv4</span><span class="params">(String ip)</span></span>&#123;</span><br><span class="line">        String[] split = ip.split(<span class="string">&quot;\\.&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(split.length!=<span class="number">4</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(String sp:split)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sp.length()&gt;<span class="number">3</span>||sp.length()==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span>(sp.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>&amp;&amp;sp.length()!=<span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">int</span> n;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                n=Integer.parseInt(sp);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(n&lt;<span class="number">0</span>||n&gt;<span class="number">255</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkIPv6</span><span class="params">(String ip)</span></span>&#123;</span><br><span class="line">        String[] split = ip.split(<span class="string">&quot;:&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(split.length!=<span class="number">8</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(String sp:split)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sp.length()&gt;<span class="number">4</span>||sp.length()==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;sp.length();i++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!check16(sp.charAt(i))) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check16</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(Character.isDigit(c)) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(Character.isAlphabetic(c))&#123;</span><br><span class="line">            <span class="keyword">if</span>(c&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;c&lt;=<span class="string">&#x27;F&#x27;</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">if</span>(c&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;c&lt;=<span class="string">&#x27;f&#x27;</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h4 id="1-单调队列的模板代码"><a href="#1-单调队列的模板代码" class="headerlink" title="1.单调队列的模板代码"></a>1.单调队列的模板代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MRQ</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner((System.in));</span><br><span class="line">        <span class="keyword">int</span> N = scanner.nextInt();</span><br><span class="line">        <span class="keyword">int</span> K = scanner.nextInt();</span><br><span class="line">        <span class="keyword">int</span> [] arr = <span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">        LinkedList&lt;Integer&gt; Q = <span class="keyword">new</span> LinkedList&lt;&gt;(); <span class="comment">//双向队列，存放下标</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取数据</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++) arr[i] =scanner.nextInt();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 维护单调队列 （最小）</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">            <span class="comment">// 将队列尾部比arr[i]大的元素都出队</span></span><br><span class="line">            <span class="keyword">while</span>(!Q.isEmpty()&amp;&amp;arr[Q.getLast()]&gt;arr[i]) Q.removeLast();</span><br><span class="line">            <span class="comment">// 将当前元素入队</span></span><br><span class="line">            Q.addLast(i);</span><br><span class="line">            <span class="comment">//  队列首元素离开滑动窗口。窗口每次循环只移动一次，故只需考虑队首元素</span></span><br><span class="line">            <span class="keyword">if</span>(i-Q.getFirst()==K) Q.removeFirst();</span><br><span class="line">            <span class="comment">// i&gt;K时才完整覆盖一个长度为K的窗口，才会做输出</span></span><br><span class="line">            <span class="keyword">if</span>(i&gt;K) System.out.println(arr[Q.getFirst()]);</span><br><span class="line">        &#125;</span><br><span class="line">        scanner.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-单调队列维护固定窗口大小的滑动窗口的最大值和最小值"><a href="#2-单调队列维护固定窗口大小的滑动窗口的最大值和最小值" class="headerlink" title="2.单调队列维护固定窗口大小的滑动窗口的最大值和最小值"></a>2.单调队列维护固定窗口大小的滑动窗口的最大值和最小值</h4><p>相关题目见LC239  LC1438</p>
+<h4 id="3-列表的拷贝"><a href="#3-列表的拷贝" class="headerlink" title="3.列表的拷贝"></a>3.列表的拷贝</h4><p><code>List.copyOf(list)</code> 得到的列表是不可修改的。</p>
+<p>想要得到可修改的列表可以考虑</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list2 = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list2.addAll(list);</span><br></pre></td></tr></table></figure>
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="4-Java的字符串分割"><a href="#4-Java的字符串分割" class="headerlink" title="4. Java的字符串分割"></a>4. Java的字符串分割</h4><p>Java的split方法根据匹配给定的正则表达式来拆分字符串。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] split(String regex, <span class="keyword">int</span> limit)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>regex</strong> – 正则表达式分隔符。</li>
+<li><strong>limit</strong> – 分割的份数。</li>
+</ul>
+<p><strong>注意：</strong> <code>.</code> 、 <code>$</code>、 <code>|</code> 和 <code>*</code> 等转义字符，必须得加 <code>\\</code>。</p>
+<p><strong>注意：</strong>多个分隔符，可以用 <code>|</code> 作为连字符。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">张海达</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://no-existence.github.io/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">https://no-existence.github.io/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://no-existence.github.io" target="_blank">Insular Oasis</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Leetcode/">Leetcode</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/Leetcode.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/"><img class="prev-cover" src="/img/cover/Leetcode.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 单调栈练习</div></div></a></div><div class="next-post pull-right"><a href="/3.%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/"><img class="next-cover" src="/img/cover/CSAPP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSAPP 3 程序的机器级表示</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/3-1快速排序及优化/" title="Leetcode 快速排序联系"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-19</div><div class="title">Leetcode 快速排序联系</div></div></a></div><div><a href="/3-4拓扑排序/" title="Leetcode 拓扑排序练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-26</div><div class="title">Leetcode 拓扑排序练习</div></div></a></div><div><a href="/3-3不基于比较的排序/" title="Leetcode 不基于比较的排序的练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-05</div><div class="title">Leetcode 不基于比较的排序的练习</div></div></a></div><div><a href="/4-3 深搜与广搜/" title="Leetcode 深搜广搜练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-10</div><div class="title">Leetcode 深搜广搜练习</div></div></a></div><div><a href="/1-2 线程池与任务队列/" title="Leetcode 队列练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-20</div><div class="title">Leetcode 队列练习</div></div></a></div><div><a href="/1-1 链表及经典问题/" title="Leetcode 链表练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-19</div><div class="title">Leetcode 链表练习</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">张海达</div><div class="author-info__description">张海达的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/No-Existence"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/No-Existence" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5-1-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">5-1 单调队列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">1.1.</span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMQ%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.1.</span> <span class="toc-text">RMQ问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%BB%83%E4%B9%A0"><span class="toc-number">1.2.</span> <span class="toc-text">相关练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC239-%E5%89%91%E6%8C%87-Offer-59-I-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC-Hard"><span class="toc-number">1.2.1.</span> <span class="toc-text">LC239&#x2F;剑指 Offer 59 - I 滑动窗口最大值 [Hard]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC862-%E5%92%8C%E8%87%B3%E5%B0%91%E4%B8%BA-K-%E7%9A%84%E6%9C%80%E7%9F%AD%E5%AD%90%E6%95%B0%E7%BB%84-Hard"><span class="toc-number">1.2.2.</span> <span class="toc-text">**LC862 和至少为 K 的最短子数组[Hard]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC1438-%E7%BB%9D%E5%AF%B9%E5%B7%AE%E4%B8%8D%E8%B6%85%E8%BF%87%E9%99%90%E5%88%B6%E7%9A%84%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84-Medium"><span class="toc-number">1.2.3.</span> <span class="toc-text">*LC1438 绝对差不超过限制的最长连续子数组[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%BB%83%E4%B9%A0"><span class="toc-number">1.3.</span> <span class="toc-text">其他练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC45-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-II-Medium"><span class="toc-number">1.3.1.</span> <span class="toc-text">LC45 跳跃游戏 II[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC1760-%E8%A2%8B%E5%AD%90%E9%87%8C%E6%9C%80%E5%B0%91%E6%95%B0%E7%9B%AE%E7%9A%84%E7%90%83-Medium"><span class="toc-number">1.3.2.</span> <span class="toc-text">LC1760  袋子里最少数目的球[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC513-%E6%89%BE%E6%A0%91%E5%B7%A6%E4%B8%8B%E8%A7%92%E7%9A%84%E5%80%BC-Medium"><span class="toc-number">1.3.3.</span> <span class="toc-text">LC513 找树左下角的值 [Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC46%E5%85%A8%E6%8E%92%E5%88%97-Medium"><span class="toc-number">1.3.4.</span> <span class="toc-text">LC46全排列 [Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-6"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC43-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E4%B9%98-Medium"><span class="toc-number">1.3.5.</span> <span class="toc-text">LC43 字符串相乘[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-7"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC135-%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C-Hard"><span class="toc-number">1.3.6.</span> <span class="toc-text">LC135 分发糖果[Hard]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-8"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC93-%E5%A4%8D%E5%8E%9F-IP-%E5%9C%B0%E5%9D%80-Medium"><span class="toc-number">1.3.7.</span> <span class="toc-text">LC93  复原 IP 地址[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-9"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC468-%E9%AA%8C%E8%AF%81IP%E5%9C%B0%E5%9D%80-Medium"><span class="toc-number">1.3.8.</span> <span class="toc-text">LC468 验证IP地址[Medium]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-10"><span class="toc-number">1.3.8.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E7%9A%84%E6%A8%A1%E6%9D%BF%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">1.单调队列的模板代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E7%BB%B4%E6%8A%A4%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC%E5%92%8C%E6%9C%80%E5%B0%8F%E5%80%BC"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">2.单调队列维护固定窗口大小的滑动窗口的最大值和最小值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%97%E8%A1%A8%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">3.列表的拷贝</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.4.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">4. Java的字符串分割</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 8 异常控制流"/></a><div class="content"><a class="title" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流">CSAPP 8 异常控制流</a><time datetime="2022-05-05T06:43:22.000Z" title="发表于 2022-05-05 14:43:22">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 练习"/></a><div class="content"><a class="title" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习">Leetcode 练习</a><time datetime="2022-05-02T09:11:01.000Z" title="发表于 2022-05-02 17:11:01">2022-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 6 存储器层次结构"/></a><div class="content"><a class="title" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构">CSAPP 6 存储器层次结构</a><time datetime="2022-04-30T08:36:12.000Z" title="发表于 2022-04-30 16:36:12">2022-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调栈练习"/></a><div class="content"><a class="title" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习">Leetcode 单调栈练习</a><time datetime="2022-04-29T11:30:01.000Z" title="发表于 2022-04-29 19:30:01">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调队列练习"/></a><div class="content"><a class="title" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习">Leetcode 单调队列练习</a><time datetime="2022-04-25T04:20:01.000Z" title="发表于 2022-04-25 12:20:01">2022-04-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 张海达</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leetcode 拓扑排序练习 | Insular Oasis</title><meta name="keywords" content="Leetcode,数据结构"><meta name="author" content="张海达"><meta name="copyright" content="张海达"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="3-4拓扑排序理论拓扑排序是对做事先后顺序线性化的建模，顺序之间有依赖关系。 拓扑排序的结果可以不唯一 拓扑排序算法思想统计图中所有结点的入度。将所有入度为0的结点入队。不断从队列中拿队首结点front放到记录结果的线性表中，同时将front所有的后继结点入度减一，表示将该结点从图中删除。直到队列为空（无论有无环，最后队列一定会为空）。 如果入队的元素个数少于|V|，则表明图中有环。 拓扑排序的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 拓扑排序练习">
+<meta property="og:url" content="https://no-existence.github.io/3-4%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Insular Oasis">
+<meta property="og:description" content="3-4拓扑排序理论拓扑排序是对做事先后顺序线性化的建模，顺序之间有依赖关系。 拓扑排序的结果可以不唯一 拓扑排序算法思想统计图中所有结点的入度。将所有入度为0的结点入队。不断从队列中拿队首结点front放到记录结果的线性表中，同时将front所有的后继结点入度减一，表示将该结点从图中删除。直到队列为空（无论有无环，最后队列一定会为空）。 如果入队的元素个数少于|V|，则表明图中有环。 拓扑排序的时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://no-existence.github.io/img/cover/Leetcode.png">
+<meta property="article:published_time" content="2022-02-26T05:40:01.000Z">
+<meta property="article:modified_time" content="2022-05-17T04:54:07.909Z">
+<meta property="article:author" content="张海达">
+<meta property="article:tag" content="Leetcode">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://no-existence.github.io/img/cover/Leetcode.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://no-existence.github.io/3-4%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Leetcode 拓扑排序练习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 12:54:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/Leetcode.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Insular Oasis</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Leetcode 拓扑排序练习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-26T05:40:01.000Z" title="发表于 2022-02-26 13:40:01">2022-02-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T04:54:07.909Z" title="更新于 2022-05-17 12:54:07">2022-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Leetcode 拓扑排序练习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="3-4拓扑排序"><a href="#3-4拓扑排序" class="headerlink" title="3-4拓扑排序"></a>3-4拓扑排序</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>拓扑排序是对做事先后顺序线性化的建模，顺序之间有依赖关系。</p>
+<p>拓扑排序的结果可以不唯一</p>
+<h3 id="拓扑排序算法思想"><a href="#拓扑排序算法思想" class="headerlink" title="拓扑排序算法思想"></a>拓扑排序算法思想</h3><p>统计图中所有结点的入度。将所有入度为0的结点入队。不断从队列中拿队首结点front放到记录结果的线性表中，同时将front所有的后继结点入度减一，表示将该结点从图中删除。直到队列为空（无论有无环，最后队列一定会为空）。</p>
+<p><strong>如果入队的元素个数少于|V|，则表明图中有环。</strong></p>
+<p>拓扑排序的时间复杂度为 **O(V+E)**。</p>
+<h3 id="拓扑排序的应用"><a href="#拓扑排序的应用" class="headerlink" title="拓扑排序的应用"></a>拓扑排序的应用</h3><ol>
+<li>求拓扑序</li>
+<li>判环</li>
+</ol>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><h3 id="LC207-课程表-中等"><a href="#LC207-课程表-中等" class="headerlink" title="LC207 课程表 [中等]"></a>LC207 课程表 [中等]</h3><p>你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。</p>
+<p>在选修某些课程之前需要一些先修课程。 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则 必须 先学习课程  bi 。</p>
+<p>例如，先修课程对 [0, 1] 表示：想要学习课程 0 ，你需要先完成课程 1 。<br>请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= numCourses &lt;= 10^5</code></li>
+<li><code>0 &lt;= prerequisites.length &lt;= 5000</code></li>
+<li><code>prerequisites[i].length == 2</code></li>
+<li><code>0 &lt;= ai, bi &lt; numCourses</code></li>
+<li><code>prerequisites[i]</code> 中的所有课程对 <strong>互不相同</strong></li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>标准的拓扑排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;Integer&gt; [] G;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> [] indeg;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span>[][] edge)</span></span>&#123;</span><br><span class="line">        G=<span class="keyword">new</span> LinkedList[n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) G[i]=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        indeg=<span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line">        Arrays.fill(indeg,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(prerequisites==<span class="keyword">null</span>||prerequisites.length==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        init(numCourses,prerequisites);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;prerequisites.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> u=prerequisites[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> v=prerequisites[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(u==v) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            G[u].add(v);</span><br><span class="line">            indeg[v]++;</span><br><span class="line">        &#125;</span><br><span class="line">        LinkedList&lt;Integer&gt; Q=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;numCourses;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>) Q.add(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> inqCount=Q.size();</span><br><span class="line">        <span class="keyword">while</span>(!Q.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">int</span> u=Q.removeFirst();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> v:G[u])&#123;</span><br><span class="line">                <span class="keyword">if</span>(--indeg[v]==<span class="number">0</span>) &#123;</span><br><span class="line">                    Q.add(v);</span><br><span class="line">                    inqCount++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inqCount==numCourses ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC210-课程表II-中等"><a href="#LC210-课程表II-中等" class="headerlink" title="LC210 课程表II [中等]"></a>LC210 课程表II [中等]</h3><p>现在你总共有 numCourses 门课需要选，记为 0 到 numCourses - 1。给你一个数组 prerequisites ，其中 prerequisites[i] = [ai, bi] ，表示在选修课程 ai 前 必须 先选修 bi 。</p>
+<p>例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示：[0,1] 。<br>返回你为了学完所有课程所安排的学习顺序。可能会有多个正确的顺序，你只要返回 任意一种 就可以了。如果不可能完成所有课程，返回 一个空数组 。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20211006222248059.png" alt="image-20211006222248059"></p>
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><p>标准的拓扑排序，这里需要输出序列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; [] G;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> [] indeg;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> V,<span class="keyword">int</span> [][] edge)</span></span>&#123;</span><br><span class="line">        G=<span class="keyword">new</span> LinkedList[V];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;V;i++) G[i]=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        indeg=<span class="keyword">new</span> <span class="keyword">int</span> [V];</span><br><span class="line">        Arrays.fill(indeg,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findOrder(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites) &#123;</span><br><span class="line">        <span class="keyword">int</span> [] result=<span class="keyword">new</span> <span class="keyword">int</span> [numCourses];</span><br><span class="line">        <span class="keyword">if</span>(prerequisites==<span class="keyword">null</span>||prerequisites.length==<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;numCourses;i++) result[i]=i;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">        init(numCourses, prerequisites);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;prerequisites.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> v=prerequisites[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> u=prerequisites[i][<span class="number">1</span>];</span><br><span class="line">            G[u].add(v);</span><br><span class="line">            indeg[v]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> inqCount=<span class="number">0</span>;</span><br><span class="line">        LinkedList&lt;Integer&gt; Q=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;numCourses;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indeg[i]==<span class="number">0</span>)Q.add(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!Q.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">int</span> u=Q.removeFirst();</span><br><span class="line">            result[inqCount++]=u;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> v:G[u])&#123;</span><br><span class="line">                <span class="keyword">if</span>(--indeg[v]==<span class="number">0</span>) Q.add(v);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(inqCount&lt;numCourses) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span> [<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="其他练习"><a href="#其他练习" class="headerlink" title="其他练习"></a>其他练习</h2><h3 id="LC56-合并区间-中等"><a href="#LC56-合并区间-中等" class="headerlink" title="LC56 合并区间[中等]"></a>LC56 合并区间[中等]</h3><p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20220226143324870.png" alt="image-20220226143324870"></p>
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><p>区间贪心。</p>
+<ul>
+<li>先对区间排序，排序规则是以左端点值从小到大排序，左端点值相同时按右端点值从小到大排。</li>
+<li>遍历一遍排好序的区间序列，维护一个区间<code>[left,right]</code>，<ul>
+<li>如果遍历到的区间<code>[l,r]</code>完全在该区间右边，则将<code>[left,right]</code>加入到结果中，更新<code>[left,right]</code>为<code>[l,r]</code></li>
+<li>否则，<code>[l,r]</code>和<code>[left,right]</code> 重叠，更新right为<code>max&#123;right,r&#125;</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[][] merge(<span class="keyword">int</span>[][] intervals) &#123;</span><br><span class="line">        Arrays.sort(intervals, (o1, o2) -&gt; o1[<span class="number">0</span>] == o2[<span class="number">0</span>] ? o1[<span class="number">1</span>] - o2[<span class="number">1</span>] : o1[<span class="number">0</span>] - o2[<span class="number">0</span>]);</span><br><span class="line">        ArrayList&lt;<span class="keyword">int</span>[]&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> n = intervals.length;</span><br><span class="line">        <span class="keyword">int</span> left = intervals[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> right = intervals[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> l = intervals[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> r = intervals[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (l &gt; right) &#123;</span><br><span class="line">                result.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;left, right&#125;);</span><br><span class="line">                left = l;</span><br><span class="line">                right = r;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (r &gt; right) right = r;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        result.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;left, right&#125;);</span><br><span class="line">        <span class="keyword">int</span>[][] res = <span class="keyword">new</span> <span class="keyword">int</span>[result.size()][];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; result.size(); i++) &#123;</span><br><span class="line">            res[i] = result.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC1288-删除被覆盖区间-中等"><a href="#LC1288-删除被覆盖区间-中等" class="headerlink" title="LC1288  删除被覆盖区间[中等]"></a>LC1288  删除被覆盖区间[中等]</h3><p>给你一个区间列表，请你删除列表中被其他区间所覆盖的区间。</p>
+
+<p>只有当&nbsp;<code>c &lt;= a</code>&nbsp;且&nbsp;<code>b &lt;= d</code>&nbsp;时，我们才认为区间&nbsp;<code>[a,b)</code> 被区间&nbsp;<code>[c,d)</code> 覆盖。</p>
+
+<p>在完成所有删除操作后，请你返回列表中剩余区间的数目。</p>
+
+<p><strong>示例：</strong></p>
+
+<pre>
+<strong>输入：</strong>intervals = [[1,4],[3,6],[2,8]]
+<strong>输出：</strong>2
+<strong>解释：</strong>区间 [3,6] 被区间 [2,8] 覆盖，所以它被删除了。
+</pre>
+<p><strong>提示：</strong>​​​​​​</p>
+
+<ul>
+    <li><code>1 &lt;= intervals.length &lt;= 1000</code></li>
+    <li><code>0 &lt;= intervals[i][0] &lt;&nbsp;intervals[i][1] &lt;= 10^5</code></li>
+    <li>对于所有的&nbsp;<code>i != j</code>：<code>intervals[i] != intervals[j]</code></li>
+
+<h4 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h4><p>区间贪心。</p>
+<p>将区间按左端点值从小到大排，如果左端点相同，则按右端点值从大到小排。</p>
+<p>其他同上题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">removeCoveredIntervals</span><span class="params">(<span class="keyword">int</span>[][] intervals)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(intervals.length==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        Arrays.sort(intervals,(o1,o2)-&gt; o1[<span class="number">0</span>]==o2[<span class="number">0</span>]?o2[<span class="number">1</span>]-o1[<span class="number">1</span>]:o1[<span class="number">0</span>]-o2[<span class="number">0</span>]);</span><br><span class="line">        ArrayList&lt;<span class="keyword">int</span> []&gt; result  = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> left =intervals[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> right = intervals[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> n =intervals.length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> l = intervals[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> r = intervals[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(!(l&gt;=left&amp;&amp;r&lt;=right) )&#123;</span><br><span class="line">                result.add(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;left,right&#125;);</span><br><span class="line">                left=l;</span><br><span class="line">                right=r;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        result.add(<span class="keyword">new</span> <span class="keyword">int</span> []&#123;left,right&#125;);</span><br><span class="line">        <span class="keyword">return</span> result.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="LC491-递增子序列-中等"><a href="#LC491-递增子序列-中等" class="headerlink" title="LC491  递增子序列 [中等]"></a>LC491  递增子序列 [中等]</h3><p>给你一个整数数组 <code>nums</code> ，找出并返回所有该数组中不同的递增子序列，递增子序列中 <strong>至少有两个元素</strong> 。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+
+<p>数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [4,6,7,7]
+<strong>输出：</strong>[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [4,4,3,2,1]
+<strong>输出：</strong>[[4,4]]
+</pre>
+<p><strong>提示：</strong></p>
+
+<ul>
+    <li><code>1 &lt;= nums.length &lt;= 15</code></li>
+    <li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
+</ul>
+
+<h4 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h4><p>深度优先搜索剪枝，或者比特位枚举所有的子序列。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Set&lt;List&lt;Integer&gt;&gt; result;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; findSubsequences(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        result = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        dfs(<span class="keyword">new</span> ArrayList&lt;&gt;(),nums,<span class="number">0</span>);</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ret = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(List&lt;Integer&gt; list : result)&#123;</span><br><span class="line">            ret.add(list);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;Integer&gt; orglist,<span class="keyword">int</span> []nums,<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(orglist.size()&gt;=<span class="number">2</span>) result.add(orglist);</span><br><span class="line">        <span class="keyword">if</span>(i&gt;=nums.length) <span class="keyword">return</span>;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(Integer it :orglist) list.add(it);</span><br><span class="line">        <span class="keyword">int</span> n = list.size();</span><br><span class="line">        <span class="comment">// 不加nums[i]</span></span><br><span class="line">        dfs(list,nums,i+<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 加nums[i]</span></span><br><span class="line">        List&lt;Integer&gt; list2 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(Integer it :orglist) list2.add(it);</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>) list2.add(nums[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(list2.get(n-<span class="number">1</span>)&lt;=nums[i]) list2.add(nums[i]);</span><br><span class="line">        dfs(list2,nums,i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="面试题-04-12-求和路径-中等"><a href="#面试题-04-12-求和路径-中等" class="headerlink" title="面试题 04.12  求和路径 [中等]"></a>面试题 04.12  求和路径 [中等]</h3><p>给定一棵二叉树，其中每个节点都含有一个整数数值(该值或正或负)。设计一个算法，打印节点数值总和等于某个给定值的所有路径的数量。注意，路径不一定非得从二叉树的根节点或叶节点开始或结束，但是其方向必须向下(只能从父节点指向子节点方向)。</p>
+
+<p><strong>示例:</strong><br>
+给定如下二叉树，以及目标和&nbsp;<code>sum = 22</code>，</p>
+
+<pre>              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+</pre>
+
+<p>返回:</p>
+
+<pre>3
+<strong>解释：</strong>和为 22&nbsp;的路径有：[5,4,11,2], [5,8,4,5], [4,11,7]</pre>
+
+<p>提示：</p>
+
+<ul>
+    <li><code>节点总数 &lt;= 10000</code></li>
+</ul>
+
+<h4 id="思路-5"><a href="#思路-5" class="headerlink" title="思路"></a>思路</h4><p>深度优先搜索，用一个参数来控制当前是否在对遍历到的结点的值做求和。</p>
+<p>注意，不能将所有根结点到叶子结点的路径都放在列表中，再对列表暴力求连续子序列，例如 <code>Tree=[1,5,5],sum=6</code>的情况</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pathSum</span><span class="params">(TreeNode root, <span class="keyword">int</span> sum)</span> </span>&#123;</span><br><span class="line">        count=<span class="number">0</span>;</span><br><span class="line">        dfs(root,<span class="number">0</span>,sum,<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root,<span class="keyword">int</span> sum,<span class="keyword">int</span> target,<span class="keyword">boolean</span> isCounting)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>) <span class="keyword">return</span> ;</span><br><span class="line">        <span class="keyword">if</span>(isCounting)&#123;</span><br><span class="line">            sum+=root.val;</span><br><span class="line">            <span class="keyword">if</span>(sum==target) count++;</span><br><span class="line">            dfs(root.left,sum,target,isCounting);</span><br><span class="line">            dfs(root.right,sum,target,isCounting);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            dfs(root.left,<span class="number">0</span>,target,<span class="keyword">false</span>);</span><br><span class="line">            dfs(root.right,<span class="number">0</span>,target,<span class="keyword">false</span>);</span><br><span class="line">            <span class="keyword">if</span>(root.val==target) count++;</span><br><span class="line">            dfs(root.left,root.val,target,<span class="keyword">true</span>);</span><br><span class="line">            dfs(root.right,root.val,target,<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h3><ol>
+<li><p> 给出的边是结点自己指向自己</p>
+</li>
+<li><p>除了从队列移除外还要在原来的图中删除</p>
+</li>
+<li><p>一些可能的样例</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/img/image-20211006220458231.png" alt="image-20211006220458231"></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">张海达</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://no-existence.github.io/3-4%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/">https://no-existence.github.io/3-4%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://no-existence.github.io" target="_blank">Insular Oasis</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Leetcode/">Leetcode</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/Leetcode.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/4-1%E4%BA%8C%E5%88%86%E7%AE%97%E6%B3%95/"><img class="prev-cover" src="/img/cover/Leetcode.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 二分法练习</div></div></a></div><div class="next-post pull-right"><a href="/%5BOSTEP-2a%5DFree-sapce%20Management/"><img class="next-cover" src="/img/cover/OSTEP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OSTEP-Project-2a 动态内存分配：malloc 和 free 的实现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/3-1快速排序及优化/" title="Leetcode 快速排序联系"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-19</div><div class="title">Leetcode 快速排序联系</div></div></a></div><div><a href="/3-3不基于比较的排序/" title="Leetcode 不基于比较的排序的练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-05</div><div class="title">Leetcode 不基于比较的排序的练习</div></div></a></div><div><a href="/4-3 深搜与广搜/" title="Leetcode 深搜广搜练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-10</div><div class="title">Leetcode 深搜广搜练习</div></div></a></div><div><a href="/1-2 线程池与任务队列/" title="Leetcode 队列练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-20</div><div class="title">Leetcode 队列练习</div></div></a></div><div><a href="/1-1 链表及经典问题/" title="Leetcode 链表练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-19</div><div class="title">Leetcode 链表练习</div></div></a></div><div><a href="/2-1二叉树及经典问题/" title="Leetcode 二叉树练习"><img class="cover" src="/img/cover/Leetcode.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-11</div><div class="title">Leetcode 二叉树练习</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">张海达</div><div class="author-info__description">张海达的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/No-Existence"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/No-Existence" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#3-4%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">3-4拓扑排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">1.1.</span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3"><span class="toc-number">1.1.1.</span> <span class="toc-text">拓扑排序算法思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">拓扑排序的应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0"><span class="toc-number">1.2.</span> <span class="toc-text">练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC207-%E8%AF%BE%E7%A8%8B%E8%A1%A8-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">LC207 课程表 [中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC210-%E8%AF%BE%E7%A8%8B%E8%A1%A8II-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">LC210 课程表II [中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%BB%83%E4%B9%A0"><span class="toc-number">1.3.</span> <span class="toc-text">其他练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.3.1.</span> <span class="toc-text">LC56 合并区间[中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC1288-%E5%88%A0%E9%99%A4%E8%A2%AB%E8%A6%86%E7%9B%96%E5%8C%BA%E9%97%B4-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">LC1288  删除被覆盖区间[中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LC491-%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.3.3.</span> <span class="toc-text">LC491  递增子序列 [中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98-04-12-%E6%B1%82%E5%92%8C%E8%B7%AF%E5%BE%84-%E4%B8%AD%E7%AD%89"><span class="toc-number">1.3.4.</span> <span class="toc-text">面试题 04.12  求和路径 [中等]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF-5"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%93%E9%94%99%E7%82%B9"><span class="toc-number">1.4.1.</span> <span class="toc-text">易错点</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 8 异常控制流"/></a><div class="content"><a class="title" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流">CSAPP 8 异常控制流</a><time datetime="2022-05-05T06:43:22.000Z" title="发表于 2022-05-05 14:43:22">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 练习"/></a><div class="content"><a class="title" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习">Leetcode 练习</a><time datetime="2022-05-02T09:11:01.000Z" title="发表于 2022-05-02 17:11:01">2022-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 6 存储器层次结构"/></a><div class="content"><a class="title" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构">CSAPP 6 存储器层次结构</a><time datetime="2022-04-30T08:36:12.000Z" title="发表于 2022-04-30 16:36:12">2022-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调栈练习"/></a><div class="content"><a class="title" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习">Leetcode 单调栈练习</a><time datetime="2022-04-29T11:30:01.000Z" title="发表于 2022-04-29 19:30:01">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调队列练习"/></a><div class="content"><a class="title" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习">Leetcode 单调队列练习</a><time datetime="2022-04-25T04:20:01.000Z" title="发表于 2022-04-25 12:20:01">2022-04-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 张海达</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSAPP 1 计算机系统漫游 | Insular Oasis</title><meta name="keywords" content="CSAPP,计算机组成原理"><meta name="author" content="张海达"><meta name="copyright" content="张海达"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 计算机系统漫游所有计算机系统由硬件和系统软件组成 本书目的旨在于理解底层计算机的本质以及它如何影响应用程序 本书的讲解的三个方面均基于程序的生命周期：  程序的结构和执行 程序在系统上运行 进程间的交互通信  Hello程序的生命周期hello程序的生命周期：创建、在系统上运行、输出消息、终止。 源程序源程序由程序员通过编辑器创建并保存为文本文件。 以下hello程序代码在编写完成后保存为 h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP 1 计算机系统漫游">
+<meta property="og:url" content="https://no-existence.github.io/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/index.html">
+<meta property="og:site_name" content="Insular Oasis">
+<meta property="og:description" content="1 计算机系统漫游所有计算机系统由硬件和系统软件组成 本书目的旨在于理解底层计算机的本质以及它如何影响应用程序 本书的讲解的三个方面均基于程序的生命周期：  程序的结构和执行 程序在系统上运行 进程间的交互通信  Hello程序的生命周期hello程序的生命周期：创建、在系统上运行、输出消息、终止。 源程序源程序由程序员通过编辑器创建并保存为文本文件。 以下hello程序代码在编写完成后保存为 h">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://no-existence.github.io/img/cover/CSAPP.png">
+<meta property="article:published_time" content="2022-04-16T14:56:39.000Z">
+<meta property="article:modified_time" content="2022-05-17T05:12:35.942Z">
+<meta property="article:author" content="张海达">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://no-existence.github.io/img/cover/CSAPP.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://no-existence.github.io/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CSAPP 1 计算机系统漫游',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 13:12:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/CSAPP.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Insular Oasis</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSAPP 1 计算机系统漫游</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-16T14:56:39.000Z" title="发表于 2022-04-16 22:56:39">2022-04-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T05:12:35.942Z" title="更新于 2022-05-17 13:12:35">2022-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSAPP 1 计算机系统漫游"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-计算机系统漫游"><a href="#1-计算机系统漫游" class="headerlink" title="1 计算机系统漫游"></a>1 计算机系统漫游</h1><p>所有计算机系统由硬件和系统软件组成</p>
+<p>本书目的旨在于理解底层计算机的本质以及它如何影响应用程序</p>
+<p>本书的讲解的三个方面均基于程序的生命周期：</p>
+<ul>
+<li>程序的结构和执行</li>
+<li>程序在系统上运行</li>
+<li>进程间的交互通信</li>
+</ul>
+<h2 id="Hello程序的生命周期"><a href="#Hello程序的生命周期" class="headerlink" title="Hello程序的生命周期"></a>Hello程序的生命周期</h2><p>hello程序的生命周期：创建、在系统上运行、输出消息、终止。</p>
+<h4 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h4><p>源程序由程序员通过<strong>编辑器</strong>创建并保存为文本文件。</p>
+<p>以下hello程序代码在编写完成后保存为 <code>hello.c</code> 得到 <code>.c</code> 文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>文本文件到源程序</strong></p>
+<p>源程序是以<strong>字节序列</strong>的方式存储在文件中，而我们编写的文本都是以ASCII标准来表示字符。通过<strong>ASCII码表</strong>，我们用唯一的字节大小的整数值来表示每个不同的字符，从而使得我们编写的文本文件能以字节序列的方式保存在文件中。</p>
+<p><strong>信息=位+上下文</strong></p>
+<p>系统中的所有信息（磁盘文件、存储器中的程序和数据、网络数据等）都已一串<strong>比特位</strong>来表示，区分不同数据对象的唯一方法就是<strong>读取数据对象时的上下文</strong>。</p>
+<h4 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h4><p>高级的C语言程序需要通过编译器驱动程序来实现从源文件到目标文件的转化，变成计算机能理解的低级机器语言指令。</p>
+<p>在linux系统上将<code>hello.c</code>文件经过gcc编译器编译后得到可执行程序<code>hello</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -o hello hello.c</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412103629532.png" alt="image-20220412103629532"></p>
+<p><strong>编译系统如何运行？</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412105147916.png" alt="image-20220412105147916"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412105955117.png" alt="image-20220412105955117"></p>
+<p>编译系统对源程序的处理包含四个阶段</p>
+<p>预处理阶段：根据 <code>#</code> 开头的命令 修改原始C程序，读取头文件的内容直接插入到程序文本中</p>
+<p>编译阶段：编译器将<code>.i</code> 文件通过汇编语言程序翻译成<code>.s</code> 文件。包含词法分析、语法分析、语义分析、中间代码生成及优化等阶段。</p>
+<p>汇编阶段：汇编器将 <code>.s</code> 文件翻译成机器语言指令，生成可重定位目标程序，保存为 <code>.o</code>文件。</p>
+<p>链接阶段：<code>.o</code> 文件仍不能执行，它调用标准C库的printf函数，该函数存在于一个名为 <code>printf.o</code> 的单独的预编译目标文件中 。链接器将 <code>hello.o</code> 和 <code>printf.o</code>  合并得到可执行目标文件 <code>hello</code>。</p>
+<p><strong>理解编译系统如何工作有什么用处？</strong></p>
+<ul>
+<li>优化程序性能，在编写C程序时做出好的代码选择。</li>
+<li>理解链接时出现的错误。</li>
+<li>避免安全漏洞。理解编译器为函数产生代码的堆栈规则来避免缓冲区溢出。</li>
+</ul>
+<h4 id="系统硬件"><a href="#系统硬件" class="headerlink" title="系统硬件"></a>系统硬件</h4><p>经过编译系统得到的<strong>可执行文件存放在磁盘</strong>上。在<strong>命令行解释器shell</strong>中输入该可执行文件的名字，shell会加载并执行该文件，并将结果输出到屏幕上。这个过程涉及到<strong>系统硬件和操作系统</strong>。</p>
+<h5 id="系统硬件组成"><a href="#系统硬件组成" class="headerlink" title="系统硬件组成"></a>系统硬件组成</h5><p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412112619502.png" alt="image-20220412112619502"></p>
+<ul>
+<li><p><strong>总线</strong>：携带信息字节并负责在各部件间传递。总线能传送的定长字节块称为<strong>字</strong>，字中的字节数称为<strong>机器字长</strong>。</p>
+</li>
+<li><p><strong>I/O设备</strong>：系统与外界的联系通道，比如键盘鼠标、显示器、磁盘等。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412113312394.png" alt="image-20220412113312394"></p>
+</li>
+<li><p><strong>主存</strong>：在处理器执行程序时临时存放程序和数据的存储设备。在物理上，主存是由<strong>DRAM芯片</strong>组成；在逻辑上，主存是一个<strong>线性的字节数组</strong>组成，每个字节都有自己唯一的地址。</p>
+</li>
+<li><p><strong>处理器</strong>：中央处理器（CPU）是解释存储在主存中指令的引擎，由程序计数器、寄存器文件和算术逻辑单元（ALU）组成。CPU操作包括</p>
+<ul>
+<li>加载（主存到寄存器）</li>
+<li>存储（寄存器到主存）</li>
+<li>更新（寄存器与ALU之间）</li>
+<li>I/O读写（寄存器与I/O设备之间）</li>
+<li>转移（指令和程序计数器）</li>
+</ul>
+</li>
+</ul>
+<h5 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h5><p>在shell中输入 <code>./hello</code> 后系统硬件各部件间做了何种数据传递和处理？</p>
+<p><strong>键盘读入字符串</strong></p>
+<p>键盘输入字符串 <code>&#39;./hello&#39;</code> ，shell程序逐一读取字符至寄存器，再存放至存储器中。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412155251479.png" alt="image-20220412155251479"></p>
+<p><strong>主存加载数据和程序</strong></p>
+<p>读到回车后，shell知道命令输入结束，将相关代码和数据<strong>从磁盘拷贝到主存</strong>。</p>
+<p>利用DMA技术可以将输入字符串不通过处理器直接从磁盘送达主存。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412155308331.png" alt="image-20220412155308331"></p>
+<p><strong>处理器执行指令</strong></p>
+<p>处理器的基本任务：PC从存储器读取指令，解释指令，执行指令，更新PC，如此往复。</p>
+<p>处理器读取被加载到内存中的可执行文件<code>hello</code> 中的每条指令（以机器语言的形式），解释并执行。</p>
+<p><strong>显示器输出字符串</strong></p>
+<p>CPU执行到<code>printf(&quot;Hello World!\n&quot;);</code> 对应的机器语言指令后，将该字符串中的字节从存储器拷贝到寄存器文件，再从寄存器文件拷贝到显示设备，最后显示再屏幕上。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412155326776.png" alt="image-20220412155326776"></p>
+<h5 id="形成层次结构的存储设备"><a href="#形成层次结构的存储设备" class="headerlink" title="形成层次结构的存储设备"></a>形成层次结构的存储设备</h5><p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412155613788.png" alt="image-20220412155613788"></p>
+<p>层次结构体现在上层存储器的运行<strong>速度</strong>更快，<strong>容量</strong>更小，<strong>每字节存储设备的成本</strong>更高；下层存储器的运行速度更慢，容量更大，成本更低。</p>
+<p>为了平衡寄存器和内存之间运行速度的差异，计算机科学家在两者之间引入高速缓存，一般有三级高速缓存</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412160827410.png" alt="image-20220412160827410"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412155559569.png" alt="image-20220412155559569"></p>
+<h4 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h4><p>直接访问磁盘、键盘、显示器等硬件设备的不是shell程序或hello程序，而是操作系统。</p>
+<p>操作系统是应用程序与硬件之间的一层软件。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412161055159.png" alt="image-20220412161055159"></p>
+<p>两个基本功能：防止硬件被失控应用程序滥用；操作系统提供统一的机制来操控底层硬件。</p>
+<p>操作系统为底层硬件提供了三层基本的<strong>抽象</strong>，进程、虚拟内存和文件。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412161145454.png" alt="image-20220412161145454"></p>
+<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>进程是操作系统为程序提供的一个假象，让每个程序都看上去是独占处理器、主存、I/O等资源，该程序的代码和数据好像都是处理器和存储器的唯一对象。</p>
+<p>进程是操作系统对运行程序的一种抽象。在一个系统上可同时运行多个进程，每个进程都像是独占使用硬件，这称之为<strong>并发运行</strong>，实际上一个进程的指令和另一个进程的指令是交错执行的。操作系统实现这种交错执行的机制成为<strong>上下文切换</strong>。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412165233907.png" alt="image-20220412165233907"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412165151181.png" alt="image-20220412165151181"></p>
+<h5 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h5><p>虚拟内存是操作系统为进程提供的一个假象，让每个进程看到地存储器都是一致的，都在独占地使用主存。</p>
+<p>每个进程看到的<strong>虚拟地址空间</strong>由大量准确定义的区构成，每个区由专门的功能。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412165756076.png" alt="image-20220412165756076"></p>
+<ul>
+<li><strong>内核虚拟存储器</strong>。操作系统驻留在存储器中的部分，不允许应用程序读写该区域的内容或直接调用内核代码定义的函数。</li>
+<li><strong>用户栈</strong>。编译器用用户栈来实现<strong>函数调用</strong>，程序调用函数时栈增长，函数返回时栈收缩。</li>
+<li><strong>共享库</strong>。存放共享库的代码和数据。</li>
+<li><strong>运行时堆</strong>。调用malloc和free函数实现运行时堆的动态扩展和收缩。</li>
+<li><strong>程序代码和数据</strong>。该区域是可执行文件直接初始化的。数据区存放全局变量，代码区存放程序代码。</li>
+</ul>
+<h5 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h5><p>文件本质是字节序列。每个I/O设备都可视为一个文件。</p>
+<p>文件使得应用程序能够统一地看待系统中可能含有地所有各式各样地I/O设备。</p>
+<h4 id="远程运行程序"><a href="#远程运行程序" class="headerlink" title="远程运行程序"></a>远程运行程序</h4><p>网络可被视为一种I/O设备，通过<strong>网络适配器</strong>与I/O总线连接。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412172011439.png" alt="image-20220412172011439"></p>
+<p>用SSH运行hello程序</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412172432762.png" alt="image-20220412172432762"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220412172739167.png" alt="image-20220412172739167"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">张海达</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://no-existence.github.io/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/">https://no-existence.github.io/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://no-existence.github.io" target="_blank">Insular Oasis</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CSAPP/">CSAPP</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/CSAPP.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2.%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/"><img class="prev-cover" src="/img/cover/CSAPP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CSAPP 2 信息的表示与处理</div></div></a></div><div class="next-post pull-right"><a href="/4-3%20%E6%B7%B1%E6%90%9C%E4%B8%8E%E5%B9%BF%E6%90%9C/"><img class="next-cover" src="/img/cover/Leetcode.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Leetcode 深搜广搜练习</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2.信息的表示和处理/" title="CSAPP 2 信息的表示与处理"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-22</div><div class="title">CSAPP 2 信息的表示与处理</div></div></a></div><div><a href="/3.程序的机器级表示/" title="CSAPP 3 程序的机器级表示"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-23</div><div class="title">CSAPP 3 程序的机器级表示</div></div></a></div><div><a href="/8.异常控制流/" title="CSAPP 8 异常控制流"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">CSAPP 8 异常控制流</div></div></a></div><div><a href="/6.存储器层次结构/" title="CSAPP 6 存储器层次结构"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-30</div><div class="title">CSAPP 6 存储器层次结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">张海达</div><div class="author-info__description">张海达的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/No-Existence"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/No-Existence" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8"><span class="toc-number">1.</span> <span class="toc-text">1 计算机系统漫游</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.1.</span> <span class="toc-text">Hello程序的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BA%90%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">源程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">编译系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">系统硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90"><span class="toc-number">1.1.0.3.1.</span> <span class="toc-text">系统硬件组成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.0.3.2.</span> <span class="toc-text">执行程序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%A2%E6%88%90%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E7%9A%84%E5%AD%98%E5%82%A8%E8%AE%BE%E5%A4%87"><span class="toc-number">1.1.0.3.3.</span> <span class="toc-text">形成层次结构的存储设备</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.0.4.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.1.0.4.1.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.1.0.4.2.</span> <span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.0.4.3.</span> <span class="toc-text">文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.0.5.</span> <span class="toc-text">远程运行程序</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 8 异常控制流"/></a><div class="content"><a class="title" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流">CSAPP 8 异常控制流</a><time datetime="2022-05-05T06:43:22.000Z" title="发表于 2022-05-05 14:43:22">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 练习"/></a><div class="content"><a class="title" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习">Leetcode 练习</a><time datetime="2022-05-02T09:11:01.000Z" title="发表于 2022-05-02 17:11:01">2022-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 6 存储器层次结构"/></a><div class="content"><a class="title" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构">CSAPP 6 存储器层次结构</a><time datetime="2022-04-30T08:36:12.000Z" title="发表于 2022-04-30 16:36:12">2022-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调栈练习"/></a><div class="content"><a class="title" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习">Leetcode 单调栈练习</a><time datetime="2022-04-29T11:30:01.000Z" title="发表于 2022-04-29 19:30:01">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调队列练习"/></a><div class="content"><a class="title" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习">Leetcode 单调队列练习</a><time datetime="2022-04-25T04:20:01.000Z" title="发表于 2022-04-25 12:20:01">2022-04-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 张海达</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

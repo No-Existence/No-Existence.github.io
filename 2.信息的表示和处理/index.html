@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSAPP 2 信息的表示与处理 | Insular Oasis</title><meta name="keywords" content="CSAPP,计算机组成原理"><meta name="author" content="张海达"><meta name="copyright" content="张海达"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="2.信息的表示和处理现代计算机存储和处理以二值信号表示的信息。二值信号能够很容易地表示、存储和传输。当我们给予不同的可能位模式以含义时，我们就能够表示任何有限集合的元素。同样的二进制串我们以不同方式编码就有不同的含义。故，我们可以认为 信息&#x3D;位+上下文 三种重要的数字编码  无符号编码。表示大于等于零的整数 二进制补码。表示有符号整数 浮点数编码。表示实数的科学计数法  计算机表示法用有限位数来对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP 2 信息的表示与处理">
+<meta property="og:url" content="https://no-existence.github.io/2.%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Insular Oasis">
+<meta property="og:description" content="2.信息的表示和处理现代计算机存储和处理以二值信号表示的信息。二值信号能够很容易地表示、存储和传输。当我们给予不同的可能位模式以含义时，我们就能够表示任何有限集合的元素。同样的二进制串我们以不同方式编码就有不同的含义。故，我们可以认为 信息&#x3D;位+上下文 三种重要的数字编码  无符号编码。表示大于等于零的整数 二进制补码。表示有符号整数 浮点数编码。表示实数的科学计数法  计算机表示法用有限位数来对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://no-existence.github.io/img/cover/CSAPP.png">
+<meta property="article:published_time" content="2022-04-22T13:32:19.000Z">
+<meta property="article:modified_time" content="2022-05-17T05:12:47.010Z">
+<meta property="article:author" content="张海达">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://no-existence.github.io/img/cover/CSAPP.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://no-existence.github.io/2.%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CSAPP 2 信息的表示与处理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 13:12:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/CSAPP.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Insular Oasis</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSAPP 2 信息的表示与处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-22T13:32:19.000Z" title="发表于 2022-04-22 21:32:19">2022-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T05:12:47.010Z" title="更新于 2022-05-17 13:12:47">2022-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSAPP 2 信息的表示与处理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="2-信息的表示和处理"><a href="#2-信息的表示和处理" class="headerlink" title="2.信息的表示和处理"></a>2.信息的表示和处理</h1><p>现代计算机存储和处理以二值信号表示的信息。二值信号能够很容易地表示、存储和传输。当我们给予不同的可能位模式以含义时，我们就能够表示任何有限集合的元素。同样的二进制串我们以不同方式编码就有不同的含义。故，我们可以认为 <strong>信息=位+上下文</strong></p>
+<p><strong>三种重要的数字编码</strong></p>
+<ul>
+<li>无符号编码。表示大于等于零的整数</li>
+<li>二进制补码。表示有符号整数</li>
+<li>浮点数编码。表示实数的科学计数法</li>
+</ul>
+<p>计算机表示法用有限位数来对一个数字编码，但当结果超出表示范围时，某些运算会<strong>溢出</strong>。</p>
+<h2 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h2><p>程序认为存储器是一个非常大的线性数组，数组每个元素是一个<strong>字节</strong>，数组的下标称为<strong>地址</strong>。所有地址的集合称为<strong>虚拟地址空间</strong>。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414144413586.png" alt="image-20220414144413586"></p>
+<h3 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h3><p>二进制与十六进制：每四位二进制位对应一个十六进制位</p>
+<p>十进制与R进制：十进制整数<strong>除R取余</strong>后将余数<strong>逆序</strong>排列得到对应的R进制数；十进制小数<strong>乘R取整</strong>后将整数部分<strong>正序</strong>排列得到对应的R进制数</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414145812480.png" alt="image-20220414145812480"></p>
+<h3 id="字长与虚拟地址"><a href="#字长与虚拟地址" class="headerlink" title="字长与虚拟地址"></a>字长与虚拟地址</h3><p>对于字长为n位的机器，虚拟地址范围为  $[0,2^n-1]$，程序最多访问 $2^n$ 个字节。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414145942159.png" alt="image-20220414145942159"></p>
+<p>大多数计算机字长为32位。大多数64位的机器做了向后兼容，因此为32位机器编译的程序也可以在64位机器上运行。</p>
+<p>在shell中可以通过修改编译选项来编译生成在指定字长上运行的程序。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -o hello32 hello.c</span><br><span class="line">gcc -m64 -o hello64 hello.c</span><br></pre></td></tr></table></figure>
+
+<p><code>hello32</code>能运行在32和64位机器上，<code>hello64</code>只能运行在64位机器上。</p>
+<h3 id="数据大小"><a href="#数据大小" class="headerlink" title="数据大小"></a>数据大小</h3><p>不同类型的数据在内存所占字节数不同</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414150904076.png" alt="image-20220414150904076"></p>
+<h3 id="寻址"><a href="#寻址" class="headerlink" title="寻址"></a>寻址</h3><p>多字节对象被存储为连续的字节序列，对象的地址是对应字节序列中最小的地址。</p>
+<p>对表示一个对象的字节序列排序，有两种通用规则，即大端模式和小端模式。</p>
+<p><strong>大端模式</strong> ： 高位字节存放在低字节处</p>
+<p><strong>小端模式</strong> ： 低位字节存放在低字节处</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414151628807.png" alt="image-20220414151628807"></p>
+<p>大多数Intel兼容机采用小端模式，IBM和Sun公司的大多数机器采用大端模式。许多新的处理器支持双端法，可配置成大端或者小端，如基于ARM架构的处理器。</p>
+<h3 id="字符串存储"><a href="#字符串存储" class="headerlink" title="字符串存储"></a>字符串存储</h3><p>C语言中字符串是一个以null字符结尾的字符数组，每个字符都已ASCII码来表示。</p>
+<h3 id="布尔运算"><a href="#布尔运算" class="headerlink" title="布尔运算"></a>布尔运算</h3><p>与、或、非</p>
+<p><strong>掩码</strong> 是一种位模式，表示从一个字中选出一组位。如位级运算x &amp;0xFF 表示选出x的最低字节。</p>
+<p>位级运算：左移、<strong>逻辑右移</strong>、<strong>算术右移</strong>。无符号数据都按逻辑右移，有符号整数大多采用算术右移。</p>
+<h2 id="整数表示"><a href="#整数表示" class="headerlink" title="整数表示"></a>整数表示</h2><h3 id="编码方式与数据类型"><a href="#编码方式与数据类型" class="headerlink" title="编码方式与数据类型"></a>编码方式与数据类型</h3><p><strong>整数的数据类型</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414154211147.png" alt="image-20220414154211147"></p>
+<p><strong>无符号编码</strong></p>
+<p>位向量的每个位都有权重，权重是 2的若干次幂。编码值为各位的带权重和。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414154605182.png" alt="image-20220414154605182"></p>
+<p><strong>二进制补码编码</strong></p>
+<p>相比无符号编码，二进制补码定义最高位的权重是2的幂的相反数。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414154711926.png" alt="image-20220414154711926"></p>
+<p><strong>无符号数与有符号数的转换</strong></p>
+<p>转换过程中数的位模式不变，仅仅是解释方式改变。</p>
+<p>二者转换关系如下（简单来说，**相交范围内的数值不变，不相交范围内的数值差 $2^w$ **）</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414155926115.png" alt="image-20220414155926115"></p>
+<p>在C语言中，如果我们将无符号数和有符号数一起做运算，则都会被视为无符号数来做运算。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414160208118.png" alt="image-20220414160208118"></p>
+<h3 id="整数类型转换"><a href="#整数类型转换" class="headerlink" title="整数类型转换"></a><strong>整数类型转换</strong></h3><p><strong>扩展</strong></p>
+<p>扩展运算保持数值不变但让整数从短字长的类型转换为长字长的类型。</p>
+<ul>
+<li><p><strong>零扩展</strong>：简单地在位模式开头添加0。用于无符号数转换为更大的数据类型。</p>
+</li>
+<li><p><strong>符号扩展</strong>：在位模式开头添加符号位的值。用于二进制补码数字转换到更大的数据类型。</p>
+</li>
+</ul>
+<p>无符号数做零扩展保持数值不变，有符号数做符号扩展保持数值不变。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414171113317.png" alt="image-20220414171113317"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">short</span> x=<span class="number">-12345</span>;</span><br><span class="line"><span class="comment">// 求以下值</span></span><br><span class="line">(<span class="keyword">unsigned</span>) (<span class="keyword">int</span>) x;    <span class="comment">// 先做符号扩展，结果为4294954951</span></span><br><span class="line">(<span class="keyword">unsigned</span>) (<span class="keyword">unsigned</span> <span class="keyword">short</span>) x;  <span class="comment">// 先做零扩展，结果为53191</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>截断</strong></p>
+<p>减少表示一个数字的位数时，采用截断的方法。</p>
+<p>对于无符号数，直接截取后k位，丢弃高(w-k)位。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414172902587.png" alt="image-20220414172902587"></p>
+<p>对于有符号数，直接截取后k位，丢弃高(w-k)位，同时将结果视为有符号数。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220414172833983.png" alt="image-20220414172833983"></p>
+<h3 id="无符号数与有符号数的简单总结"><a href="#无符号数与有符号数的简单总结" class="headerlink" title="无符号数与有符号数的简单总结"></a>无符号数与有符号数的简单总结</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>编码方式</th>
+<th>扩展</th>
+<th>截断</th>
+<th>右移</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无符号数</td>
+<td>无符号编码</td>
+<td>零扩展</td>
+<td>直接截断位向量</td>
+<td>逻辑右移</td>
+</tr>
+<tr>
+<td>有符号数</td>
+<td>二进制补码编码</td>
+<td>符号扩展</td>
+<td>直接截断位向量，结果视为有符号数</td>
+<td>算术右移</td>
+</tr>
+</tbody></table>
+<h2 id="整数运算"><a href="#整数运算" class="headerlink" title="整数运算"></a>整数运算</h2><h3 id="加法溢出"><a href="#加法溢出" class="headerlink" title="加法溢出"></a>加法溢出</h3><p><strong>无符号数加法溢出</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415091631603.png" alt="image-20220415091631603"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415092240334.png" alt="image-20220415092240334"></p>
+<p>溢出位对应的权重为 $2^w$  ，故如果发生溢出则将结果减去 $2^w$ </p>
+<p>程序中判断符号数加法溢出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">uadd_ok</span><span class="params">(<span class="keyword">unsigned</span> x,<span class="keyword">unsigned</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> sum = x+y;</span><br><span class="line">    <span class="keyword">return</span> x+y&gt;x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>有符号数加法溢出</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415092658132.png" alt="image-20220415092658132"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415092646364.png" alt="image-20220415092646364"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415093545238.png" alt="image-20220415093545238"></p>
+<p><strong>正溢出</strong> 时，溢出的第7位原先作为数值的一部分，现在被解读为符号位。因此，由于符号位由0变1并且非符号部分的数值少了最高位，溢出的结果值比实际值相差 $-2^{w-1}+(-2^{w-1})=-2^w$  </p>
+<p><strong>负溢出</strong> 时，同理。</p>
+<p>程序中有符号数加法溢出的判定</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415093633311.png" alt="image-20220415093633311"></p>
+<h3 id="加法逆元"><a href="#加法逆元" class="headerlink" title="加法逆元"></a>加法逆元</h3><p>加法逆元能帮助我们实现减法运算。</p>
+<p><strong>无符号数的加法逆元</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415094044889.png" alt="image-20220415094044889"></p>
+<p><strong>有符号数的加法逆元</strong></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415094352504.png" alt="image-20220415094352504"></p>
+<h3 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h3><p>无符号乘法与有符号乘法的结果在位级表示上一致，仅是解释不同</p>
+<p>无符号数乘法 $x *^u_w y=(x\cdot y) mod\space 2^w$</p>
+<p>有符号数乘法  $x *^t_w y= U2T_w((x\cdot y) mod\space 2^w)$</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415095857984.png" alt="image-20220415095857984"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415095735059.png" alt="image-20220415095735059"></p>
+<p>整数乘法指令相当慢，因此编译器使用的一项重要优化就是用<strong>向左移位和加法运算的组合</strong>来代替乘以常数因子的乘法。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415101009664.png" alt="image-20220415101009664"></p>
+<h3 id="除法"><a href="#除法" class="headerlink" title="除法"></a>除法</h3><p>整数除法除不尽时会向0舍入</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415102011785.png" alt="image-20220415102011785"></p>
+<p><strong>除以2的幂</strong></p>
+<p>无符号数：x逻辑右移k位，等价于 x 除以 $2^k$</p>
+<p>有符号数：对于非负数，x算术右移k位，等价于x 除以 $2^k$；对于负数，算术右移得到的结果是  x 除以 $2^k$ 向下取整，因此需要引入一个 (1&lt;&lt;k)-1 的偏移量使得其结果能向上取整。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415103211229.png" alt="image-20220415103211229"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415103016835.png" alt="image-20220415103016835"></p>
+<p>这种除法不能推广到除以任何常数，因为除以任何常数难以像乘法那样找到等价的若干个2的幂的和来做运算。</p>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>定点数不能很好地让计算机表示小数，因为对于非常大的数字或者非常接近0的小数，它们用定点数表示就会严重受存储空间的限制。</p>
+<p>采用IEEE浮点格式表示浮点数，我们关注主要的问题有</p>
+<ul>
+<li>IEEE如何表示浮点数</li>
+<li>当一个数字无法被准确表示时如何做舍入</li>
+<li>浮点数的运算</li>
+</ul>
+<h3 id="浮点数的表示"><a href="#浮点数的表示" class="headerlink" title="浮点数的表示"></a>浮点数的表示</h3><p>所有实数可以写成用符号位S、有效数M、指数E来表示。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415111738625.png" alt="image-20220415111738625"></p>
+<p>单精度浮点格式和双精度浮点格式对这三个域在内存的划分如下</p>
+<p>单精度<code>1 8 23</code> ，双精度 <code>1 11 52</code> </p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415111534219.png" alt="image-20220415111534219"></p>
+<p>根据E的不同，将浮点数分为3类：规格化值、非规格化值、特殊值</p>
+<p>下面都以单精度为例</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415112122777.png" alt="image-20220415112122777"></p>
+<ul>
+<li><p><strong>规格化值</strong>： E的位模式e不全为0也不全为1  ，E的实际值视为<code>E=e-bias</code>，故E的取值范围是 <code>[-126,127]</code> 。此时，V用来表示一般的实数，即$V=(-1)^s \cdot (1+f) \cdot 2^{e-bias}$ </p>
+<p>$bias=2^{k-1}-1$</p>
+<p>对于单精度，<code>bias=127</code> ;对于双精度，<code>bias=1023</code>。</p>
+</li>
+<li><p><strong>非规格化值</strong>：E的位模式全为0，$V=(-1)^s \cdot f \cdot 2^{1-bias}$。 此时V用来表示正负0，或者表示非常接近于0的数。</p>
+</li>
+<li><p><strong>特殊值</strong>：E的位模式全为1，V用来表示正负无穷大或者 <code>NaN(Not a Number)</code>。NaN 指的是 某些运算结果非实数或者无穷。</p>
+</li>
+</ul>
+<p><img src="C:/Users/DELL/AppData/Roaming/Typora/typora-user-images/image-20220415122114842.png" alt="image-20220415122114842"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415123018719.png" alt="image-20220415123018719"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415123157496.png" alt="image-20220415123157496"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415124240317.png" alt="image-20220415124240317"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415124309787.png" alt="image-20220415124309787"></p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415125623863.png" alt="image-20220415125623863"></p>
+<h3 id="舍入"><a href="#舍入" class="headerlink" title="舍入"></a>舍入</h3><p>由于浮点数表示法在精度和范围上的限制，有些实数只能被近似的表示。对于给定的无法被准确表示的实数$x$， 我们用 <strong>舍入</strong> 运算来找到最接近的匹配值 $x^{‘}$  </p>
+<p>IEEE浮点格式定义了四种不同的舍入方式</p>
+<ul>
+<li><p>向偶数舍入 (<strong>Round-to-even</strong>)  ：<u>向最近值舍入，如果有两个最近值，则向最低有效位是偶数的值舍入。</u>向偶数舍入能避免统计偏差，即如果全向上舍入或向下舍入则会带来整体平均值偏大或偏小的结果。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220415131823858.png" alt="image-20220415131823858"></p>
+</li>
+<li><p>向零舍入 (<strong>Round-toward-zero</strong>) ：正数向下舍入，负数向上舍入</p>
+</li>
+<li><p>向下舍入 (<strong>Round-down</strong>) ：总朝小的方向进行舍入</p>
+</li>
+<li><p>向上舍入 (<strong>Round-up</strong>) ： 总朝大的方向进行舍入</p>
+</li>
+</ul>
+<h3 id="浮点数运算"><a href="#浮点数运算" class="headerlink" title="浮点数运算"></a>浮点数运算</h3><p>由于计算结果<strong>溢出</strong>或者由于<strong>舍入</strong>失去精度，浮点数的加法和乘法不具备结合性、分配性。</p>
+<p><img src="https://gitee.com/ji-ce-xiang/blog-image/raw/master/image-20220416000151866.png" alt="image-20220416000151866"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">张海达</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://no-existence.github.io/2.%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/">https://no-existence.github.io/2.%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://no-existence.github.io" target="_blank">Insular Oasis</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CSAPP/">CSAPP</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/CSAPP.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/3.%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/"><img class="prev-cover" src="/img/cover/CSAPP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CSAPP 3 程序的机器级表示</div></div></a></div><div class="next-post pull-right"><a href="/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/"><img class="next-cover" src="/img/cover/CSAPP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSAPP 1 计算机系统漫游</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/1 计算机系统漫游/" title="CSAPP 1 计算机系统漫游"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-16</div><div class="title">CSAPP 1 计算机系统漫游</div></div></a></div><div><a href="/3.程序的机器级表示/" title="CSAPP 3 程序的机器级表示"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-23</div><div class="title">CSAPP 3 程序的机器级表示</div></div></a></div><div><a href="/8.异常控制流/" title="CSAPP 8 异常控制流"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">CSAPP 8 异常控制流</div></div></a></div><div><a href="/6.存储器层次结构/" title="CSAPP 6 存储器层次结构"><img class="cover" src="/img/cover/CSAPP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-30</div><div class="title">CSAPP 6 存储器层次结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">张海达</div><div class="author-info__description">张海达的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/No-Existence"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/No-Existence" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">2.信息的表示和处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.</span> <span class="toc-text">信息存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.1.</span> <span class="toc-text">进制转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E9%95%BF%E4%B8%8E%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.2.</span> <span class="toc-text">字长与虚拟地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">数据大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80"><span class="toc-number">1.1.4.</span> <span class="toc-text">寻址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.5.</span> <span class="toc-text">字符串存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E8%BF%90%E7%AE%97"><span class="toc-number">1.1.6.</span> <span class="toc-text">布尔运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.2.</span> <span class="toc-text">整数表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">编码方式与数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.2.2.</span> <span class="toc-text">整数类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0%E4%B8%8E%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.3.</span> <span class="toc-text">无符号数与有符号数的简单总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97"><span class="toc-number">1.3.</span> <span class="toc-text">整数运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E6%B3%95%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.1.</span> <span class="toc-text">加法溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E6%B3%95%E9%80%86%E5%85%83"><span class="toc-number">1.3.2.</span> <span class="toc-text">加法逆元</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%98%E6%B3%95"><span class="toc-number">1.3.3.</span> <span class="toc-text">乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%A4%E6%B3%95"><span class="toc-number">1.3.4.</span> <span class="toc-text">除法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">浮点数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">浮点数的表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%8D%E5%85%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">舍入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BF%90%E7%AE%97"><span class="toc-number">1.4.3.</span> <span class="toc-text">浮点数运算</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 8 异常控制流"/></a><div class="content"><a class="title" href="/8.%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" title="CSAPP 8 异常控制流">CSAPP 8 异常控制流</a><time datetime="2022-05-05T06:43:22.000Z" title="发表于 2022-05-05 14:43:22">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 练习"/></a><div class="content"><a class="title" href="/5-3%20%E4%B8%93%E9%A1%B9%E7%BB%83%E4%B9%A0/" title="Leetcode 练习">Leetcode 练习</a><time datetime="2022-05-02T09:11:01.000Z" title="发表于 2022-05-02 17:11:01">2022-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构"><img src="/img/cover/CSAPP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP 6 存储器层次结构"/></a><div class="content"><a class="title" href="/6.%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/" title="CSAPP 6 存储器层次结构">CSAPP 6 存储器层次结构</a><time datetime="2022-04-30T08:36:12.000Z" title="发表于 2022-04-30 16:36:12">2022-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调栈练习"/></a><div class="content"><a class="title" href="/5-2%20%E5%8D%95%E8%B0%83%E6%A0%88/" title="Leetcode 单调栈练习">Leetcode 单调栈练习</a><time datetime="2022-04-29T11:30:01.000Z" title="发表于 2022-04-29 19:30:01">2022-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习"><img src="/img/cover/Leetcode.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 单调队列练习"/></a><div class="content"><a class="title" href="/5-1%20%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="Leetcode 单调队列练习">Leetcode 单调队列练习</a><time datetime="2022-04-25T04:20:01.000Z" title="发表于 2022-04-25 12:20:01">2022-04-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 张海达</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
